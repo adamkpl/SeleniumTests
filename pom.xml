@@ -14,6 +14,7 @@
         <io.github.bonigarcia.version>3.8.1</io.github.bonigarcia.version>
         <net.andreinc.mockneat.version>0.3.8</net.andreinc.mockneat.version>
         <junit.version>4.13</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
