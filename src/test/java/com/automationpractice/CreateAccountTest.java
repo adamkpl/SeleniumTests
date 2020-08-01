@@ -36,8 +36,7 @@ public class CreateAccountTest {
 
     @Before
     public void setupTest() {
-        //Given
-        navigateToAccountSignInPage();
+        driver.manage().window().maximize();
     }
 
     @After
@@ -50,40 +49,38 @@ public class CreateAccountTest {
 
     @Test
     public void CanRegisterAccount() throws IOException {
+        // Given
+        mainPage
+                .navigateToMainPage()
+                .selectSignInLink()
+                .clickSignInLink();
 
-        //When
-        accountSignInPage.
-                createAnAccount().
-                    selectCreateNewAccountEmailAddressField().
-                    setRandomEmailAddress().
-                    clickCreateNewAccountButton().
-                    setRandomGender().
-                    setRandomFirstName().
-                    setRandomLastName().
-                    setRandomPassword().
-                    selectRandomDayOfBirth().
-                    selectRandomMonthOfBirth().
-                    selectRandomYearOfBirth().
-                    setRandomAddress().
-                    setRandomUSACity().
-                    selectRandomState().
-                    setRandomPostcode().
-                    setRandomMobilePhoneNumber().
-                    setRandomAddressAlias().
-                    clickRegisterButton();
+        // When
+        accountSignInPage
+                .createAnAccount()
+                    .selectCreateNewAccountEmailAddressField()
+                    .setRandomEmailAddress()
+                    .clickCreateNewAccountButton()
+                    .setRandomGender()
+                    .setRandomFirstName()
+                    .setRandomLastName()
+                    .setRandomPassword()
+                    .selectRandomDayOfBirth()
+                    .selectRandomMonthOfBirth()
+                    .selectRandomYearOfBirth()
+                    .setRandomAddress()
+                    .setRandomUSACity()
+                    .selectRandomState()
+                    .setRandomPostcode()
+                    .setRandomMobilePhoneNumber()
+                    .setRandomAddressAlias()
+                    .clickRegisterButton();
 
-        //Then
-        myAccount.
-                getWelcomeMessage();
+        // Then
+        myAccount
+                .getWelcomeMessage();
                 takeScreenshot();
 
-    }
-
-    private void navigateToAccountSignInPage(){
-        mainPage.
-                navigateToMainPage().
-                selectSignInLink().
-                clickSignInLink();
     }
 
     private void takeScreenshot() throws IOException {
