@@ -15,7 +15,7 @@ public class MyAccount extends AbstractPageObject {
     }
 
     public WebElement getWelcomeMessage(){
-        WaitWrapper.waitForElement(getDriver(),30,welcomeMessage);
+        WaitWrapper.waitForElement(getDriver(), welcomeMessage);
         System.out.println("Success! Welcome to your account :-)");
         return welcomeMessage;
     }

@@ -23,6 +23,8 @@ import java.util.Random;
 
 public class RegisterAccountForm extends AbstractPageObject {
 
+    //todo Code cleanup
+
     // YOUR PERSONAL INFORMATION
     // required
     @FindBy(id = "email_create")
@@ -78,7 +80,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectCreateNewAccountEmailAddressField(){
-        WaitWrapper.waitForElement(getDriver(), 10, emailAddressField);
+        WaitWrapper.waitForElement(getDriver(), emailAddressField);
         return this;
     }
 
@@ -101,7 +103,7 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm clickCreateNewAccountButton(){
         //todo Add exception for error "An account using this email address has already been registered."
-        WaitWrapper.waitForElement(getDriver(),10, createAnAccountButton);
+        WaitWrapper.waitForElement(getDriver(), createAnAccountButton);
 
         createAnAccountButton.click();
 
@@ -109,7 +111,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setGenderMale(String gender){
-        WaitWrapper.waitForElement(getDriver(), 10, gender_male);
+        WaitWrapper.waitForElement(getDriver(), gender_male);
 
         gender_male.click();
         gender_male.isSelected();
@@ -118,7 +120,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setGenderFemale(String gender){
-        WaitWrapper.waitForElement(getDriver(), 10, gender_female);
+        WaitWrapper.waitForElement(getDriver(), gender_female);
 
         gender_female.click();
         gender_female.isSelected();
@@ -127,9 +129,9 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomGender(){
-        //todo Add exception for org.openqa.selenium.TimeoutException
-        WaitWrapper.waitForElement(getDriver(), 10, gender_male);
-        WaitWrapper.waitForElement(getDriver(), 10, gender_female);
+        //todo Add exception for org.openqa.selenium.TimeoutException since this seems to fail often
+        WaitWrapper.waitForElement(getDriver(), gender_male);
+        WaitWrapper.waitForElement(getDriver(), gender_female);
 
         Random random = new Random();
         String[] gender = {"gender_male","gender_female"};
@@ -149,7 +151,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setFirstName(String aFirstName){
-        WaitWrapper.waitForElement(getDriver(), 10, firstName);
+        WaitWrapper.waitForElement(getDriver(), firstName);
 
         firstName.clear();
         firstName.sendKeys(aFirstName);
@@ -158,7 +160,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setLastName(String aLastName){
-        WaitWrapper.waitForElement(getDriver(), 10, lastName);
+        WaitWrapper.waitForElement(getDriver(), lastName);
 
         lastName.clear();
         lastName.sendKeys(aLastName);
@@ -170,19 +172,19 @@ public class RegisterAccountForm extends AbstractPageObject {
         /* Could be aligned with results of setRandomGender().
         Female (0) or Male (1). */
 
-        WaitWrapper.waitForElement(getDriver(), 10, firstName);
+        WaitWrapper.waitForElement(getDriver(), firstName);
+        firstName.clear();
 
+        String aFirstName;
         Random random = new Random();
         int selectGender = random.nextInt(2);
 
         if (selectGender == 0) {
-            firstName.clear();
-            String aFirstName = names().firstAndFemale().get();
+            aFirstName = names().firstAndFemale().get();
             firstName.sendKeys(aFirstName);
             System.out.println("First name Female: " + aFirstName);
         } else {
-            firstName.clear();
-            String aFirstName = names().firstAndMale().get();
+            aFirstName = names().firstAndMale().get();
             firstName.sendKeys(aFirstName);
             System.out.println("First name Male: " + aFirstName);
         }
@@ -194,7 +196,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         /* Could be aligned it with the results of setRandomGender() & setRandomFirstName() ONLY if name
         inflexion is applied. E.g in Polish language the last name would not be Kowalski but Kowalska. */
 
-        WaitWrapper.waitForElement(getDriver(), 10, lastName);
+        WaitWrapper.waitForElement(getDriver(), lastName);
 
         lastName.clear();
         String aLastName = names().last().get();
@@ -206,7 +208,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setPassword(String aPassword){
-        WaitWrapper.waitForElement(getDriver(), 10, password);
+        WaitWrapper.waitForElement(getDriver(), password);
 
         password.clear();
         password.sendKeys(aPassword);
@@ -215,7 +217,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomPassword(){
-        WaitWrapper.waitForElement(getDriver(), 10, password);
+        WaitWrapper.waitForElement(getDriver(), password);
 
         password.clear();
         String aPassword = passwords().type(MEDIUM).get();
@@ -227,6 +229,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectDayOfBirth(int dayOfBirth){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
         dobDay = new Select(getDriver().findElement(By.id("days")));
         dobDay.isMultiple();
         dobDay.selectByIndex(dayOfBirth);
@@ -235,6 +238,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomDayOfBirth(){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
         dobDay = new Select(getDriver().findElement(By.id("days")));
         dobDay.isMultiple();
 
@@ -252,6 +256,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
         dobMonth = new Select(getDriver().findElement(By.id("months")));
         dobMonth.isMultiple();
         dobMonth.selectByIndex(monthOfBirth);
@@ -260,6 +265,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomMonthOfBirth(){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
         dobMonth = new Select(getDriver().findElement(By.id("months")));
         dobMonth.isMultiple();
 
@@ -277,6 +283,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
         dobYear = new Select(getDriver().findElement(By.id("years")));
         dobYear.isMultiple();
         dobYear.selectByIndex(yearOfBirth);
@@ -285,6 +292,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomYearOfBirth(){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
         dobYear = new Select(getDriver().findElement(By.id("years")));
         dobYear.isMultiple();
 
@@ -301,14 +309,14 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setAddress(String aAddress){
-        WaitWrapper.waitForElement(getDriver(), 10, address);
+        WaitWrapper.waitForElement(getDriver(), address);
         address.clear();
         address.sendKeys(aAddress);
         return this;
     }
 
     public RegisterAccountForm setRandomAddress(){
-        WaitWrapper.waitForElement(getDriver(), 10, address);
+        WaitWrapper.waitForElement(getDriver(), address);
 
         String randWord = words().nouns().get();
         Integer apartmentNumber = ints().range(1,999).get();
@@ -321,7 +329,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setCity(String aCity){
-        WaitWrapper.waitForElement(getDriver(), 10, city);
+        WaitWrapper.waitForElement(getDriver(), city);
 
         city.clear();
         city.sendKeys(aCity);
@@ -332,7 +340,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomUSACity(){
-        WaitWrapper.waitForElement(getDriver(), 10, city);
+        WaitWrapper.waitForElement(getDriver(), city);
 
         String aCity = cities().us().get();
 
@@ -343,6 +351,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectState(int aState){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
         state = new Select(getDriver().findElement(By.id("id_state")));
         state.isMultiple();
         state.selectByIndex(aState);
@@ -351,6 +360,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomState(){
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
         state = new Select(getDriver().findElement(By.id("id_state")));
         state.isMultiple();
 
@@ -368,7 +378,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setPostcode(CharSequence aPostCode){
-        WaitWrapper.waitForElement(getDriver(), 10, postcode);
+        WaitWrapper.waitForElement(getDriver(), postcode);
         postcode.clear();
         postcode.sendKeys(aPostCode);
         return this;
@@ -378,7 +388,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         /* In real life the post codes contain alphanumeric characters, but here
         the form accepts only 5-digit format value e.g 00000. */
 
-        WaitWrapper.waitForElement(getDriver(), 10, postcode);
+        WaitWrapper.waitForElement(getDriver(), postcode);
 
         Integer aPostcode = ints().range(10000,99999).get();
 
@@ -392,6 +402,7 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm selectCountry(int aCountry){
         // The United States value is automatically selected by default
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
         country = new Select(getDriver().findElement(By.id("id_country")));
         country.isMultiple();
         country.selectByIndex(aCountry);
@@ -400,6 +411,7 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm selectRandomCountry(){
         // The United States value is automatically selected by default
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
         country = new Select(getDriver().findElement(By.id("id_country")));
         country.isMultiple();
 
@@ -417,7 +429,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setMobilePhoneNumber(CharSequence mobilePhoneNumber){
-        WaitWrapper.waitForElement(getDriver(), 10, phone_mobile);
+        WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
         phone_mobile.clear();
         phone_mobile.sendKeys(mobilePhoneNumber);
@@ -429,7 +441,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
 
-        WaitWrapper.waitForElement(getDriver(), 10, phone_mobile);
+        WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
         Integer aPhoneMobileNumber = ints().range(100000000,999999999).get();
 
@@ -442,7 +454,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setAddressAlias(String aAddressAlias){
-        WaitWrapper.waitForElement(getDriver(), 10, addressAlias);
+        WaitWrapper.waitForElement(getDriver(), addressAlias);
 
         addressAlias.clear();
         addressAlias.sendKeys(aAddressAlias);
@@ -451,7 +463,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomAddressAlias(){
-        WaitWrapper.waitForElement(getDriver(), 10, addressAlias);
+        WaitWrapper.waitForElement(getDriver(), addressAlias);
 
         String randWord = words().nouns().get();
 
@@ -462,7 +474,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm clickRegisterButton(){
-        WaitWrapper.waitForElement(getDriver(),10, registerButton);
+        WaitWrapper.waitForElement(getDriver(),registerButton);
 
         registerButton.isEnabled();
         registerButton.click();

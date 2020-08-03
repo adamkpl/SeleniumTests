@@ -17,7 +17,7 @@ public class NavigationBar extends AbstractPageObject {
     }
 
     public AccountSignInPage clickSignInLink(){
-        WaitWrapper.waitForElement(getDriver(),10,signInLink);
+        WaitWrapper.waitForElement(getDriver(), signInLink);
         signInLink.click();
         return new AccountSignInPage(getDriver());
     }
