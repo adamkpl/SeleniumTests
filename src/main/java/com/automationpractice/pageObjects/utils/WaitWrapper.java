@@ -54,7 +54,6 @@ public class WaitWrapper {
                 return driver.findElement(by);
             }
         });
-
     }
 
     public static void waitFluentlyForElement(WebDriver driver, By by, int withTimeoutInSeconds, int pollingEveryInSeconds) {
@@ -68,7 +67,38 @@ public class WaitWrapper {
                 return driver.findElement(by);
             }
         });
+    }
 
+    public static boolean retryWaitForElement(WebDriver driver, By locator) {
+        int retryCount = 5;
+        while (true) {
+            System.out.println("retryCount: " + retryCount);
+            retryCount--;
+            try {
+                WaitWrapper.waitFluentlyForElement(driver, locator, 3, 1);
+                return true;
+            } catch (Exception e) {
+                if (retryCount == 0) {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    public static boolean retryWaitForElement(WebDriver driver, By locator, int withTimeoutInSeconds, int pollingEveryInSeconds) {
+        int retryCount = 5;
+        while (true) {
+            System.out.println("retryCount: " + retryCount);
+            retryCount--;
+            try {
+                WaitWrapper.waitFluentlyForElement(driver, locator, withTimeoutInSeconds, pollingEveryInSeconds);
+                return true;
+            } catch (Exception e) {
+                if (retryCount == 0) {
+                    throw e;
+                }
+            }
+        }
     }
 
 }
