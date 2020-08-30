@@ -32,6 +32,17 @@ public class WaitWrapper {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public static void waitForElementToBeClickable(WebDriver driver, WebElement element){
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+    public static void waitForElementToBeClickable(WebDriver driver, long timeoutInSeconds, WebElement element){
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public static void waitFluentlyForElement(WebDriver driver, By by) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30))
