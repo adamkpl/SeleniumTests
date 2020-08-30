@@ -4,6 +4,7 @@ import com.automationpractice.pageObjects.pages.AbstractPageObject;
 import com.automationpractice.pageObjects.pages.AccountSignInPage;
 import com.automationpractice.pageObjects.utils.WaitWrapper;
 
+import static com.automationpractice.pageObjects.utils.WaitWrapper.retryWaitForElement;
 import static net.andreinc.mockneat.types.enums.PassStrengthType.MEDIUM;
 import static net.andreinc.mockneat.unit.address.Cities.cities;
 import static net.andreinc.mockneat.unit.text.Words.words;
@@ -106,39 +107,36 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm setGenderMale(String gender){
-        WaitWrapper.waitForElement(getDriver(), gender_male);
+    /* Gender radio buttons make the test flaky due to the fact that they load with a delay.
+    * In order to address this issue a temporary workaround has been implemented with retryWaitForElement(). */
 
-        gender_male.click();
-        gender_male.isSelected();
+    public RegisterAccountForm setGenderMale(){
+        if (retryWaitForElement(getDriver(), By.id("id_gender1"), 2, 1)) {
+            gender_male.click();
+            gender_male.isSelected();
+        }
 
         return this;
     }
 
-    public RegisterAccountForm setGenderFemale(String gender){
-        WaitWrapper.waitForElement(getDriver(), gender_female);
-
-        gender_female.click();
-        gender_female.isSelected();
-
+    public RegisterAccountForm setGenderFemale(){
+        if (retryWaitForElement(getDriver(), By.id("id_gender2"), 2, 1)) {
+            gender_female.click();
+            gender_female.isSelected();
+        }
         return this;
     }
 
     public RegisterAccountForm setRandomGender(){
-        WaitWrapper.waitForElement(getDriver(), gender_male);
-        WaitWrapper.waitForElement(getDriver(), gender_female);
-
         Random random = new Random();
         String[] gender = {"gender_male","gender_female"};
         int randomGender = random.nextInt(gender.length);
 
         if (randomGender == 0) {
-            gender_male.click();
-            gender_male.isSelected();
+            setGenderMale();
             System.out.println("Gender: Male");
         } else {
-            gender_female.click();
-            gender_female.isSelected();
+            setGenderFemale();
             System.out.println("Gender: Female");
         }
 
