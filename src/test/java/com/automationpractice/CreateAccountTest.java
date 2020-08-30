@@ -4,6 +4,7 @@ import com.automationpractice.pageObjects.pages.AccountSignInPage;
 import com.automationpractice.pageObjects.pages.MainPage;
 import com.automationpractice.pageObjects.pages.MyAccount;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
+import com.automationpractice.pageObjects.utils.Url;
 import org.junit.*;
 
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Create an account
@@ -80,6 +83,7 @@ public class CreateAccountTest {
         myAccount
                 .getWelcomeMessage();
                 takeScreenshot();
+                assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
 
     }
 
