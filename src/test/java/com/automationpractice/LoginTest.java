@@ -5,14 +5,13 @@ import com.automationpractice.pageObjects.pages.MainPage;
 import com.automationpractice.pageObjects.pages.MyAccount;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
 import com.automationpractice.pageObjects.utils.Url;
-import org.junit.*;
-
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -52,7 +51,7 @@ public class LoginTest {
     }
 
     @Test
-    public void shouldLoginToAccount() throws IOException {
+    public void shouldLoginToAccount() {
         // Given
         mainPage
                 .navigateToMainPage()
@@ -75,7 +74,7 @@ public class LoginTest {
     }
 
     @Test
-    public void shouldFailToLoginToAccount() throws IOException {
+    public void shouldFailToLoginToAccount() {
         // Given
         mainPage
                 .navigateToMainPage()
@@ -97,11 +96,11 @@ public class LoginTest {
 
     }
 
-    private void takeScreenshotLoginSuccess() throws IOException {
+    private void takeScreenshotLoginSuccess() {
         TakeScreenshotWrapper.takeScreenshot(driver,"LoginSuccess.png");
     }
 
-    private void takeScreenshotLoginFail() throws IOException {
+    private void takeScreenshotLoginFail() {
         TakeScreenshotWrapper.takeScreenshot(driver,"LoginFail.png");
     }
 

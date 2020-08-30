@@ -5,14 +5,13 @@ import com.automationpractice.pageObjects.pages.MainPage;
 import com.automationpractice.pageObjects.pages.MyAccount;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
 import com.automationpractice.pageObjects.utils.Url;
-import org.junit.*;
-
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -51,7 +50,7 @@ public class CreateAccountTest {
     }
 
     @Test
-    public void shouldRegisterAccount() throws IOException {
+    public void shouldRegisterAccount() {
         // Given
         mainPage
                 .navigateToMainPage()
@@ -87,7 +86,7 @@ public class CreateAccountTest {
 
     }
 
-    private void takeScreenshot() throws IOException {
+    private void takeScreenshot() {
         TakeScreenshotWrapper.takeScreenshot(driver,"welcomeMessageMyAccount.png");
     }
 
