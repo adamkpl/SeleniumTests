@@ -23,8 +23,6 @@ import java.util.Random;
 
 public class RegisterAccountForm extends AbstractPageObject {
 
-    //todo Code cleanup
-
     // YOUR PERSONAL INFORMATION
     // required
     @FindBy(id = "email_create")
@@ -71,7 +69,6 @@ public class RegisterAccountForm extends AbstractPageObject {
     private WebElement registerButton;
 
     // ERRORS
-    //todo Add more errors to the list for future tests
     @FindBy(id = "create_account_error")
     private WebElement createAnAccountError;
 
@@ -102,7 +99,6 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm clickCreateNewAccountButton(){
-        //todo Add exception for error "An account using this email address has already been registered."
         WaitWrapper.waitForElement(getDriver(), createAnAccountButton);
 
         createAnAccountButton.click();
@@ -129,7 +125,6 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomGender(){
-        //todo Add exception for org.openqa.selenium.TimeoutException since this seems to fail often
         WaitWrapper.waitForElement(getDriver(), gender_male);
         WaitWrapper.waitForElement(getDriver(), gender_female);
 
