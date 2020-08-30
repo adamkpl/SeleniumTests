@@ -48,7 +48,7 @@ public class LoginTest {
     }
 
     @Test
-    public void canLoginToAccount() throws IOException {
+    public void shouldLoginToAccount() throws IOException {
         // Given
         mainPage
                 .navigateToMainPage()
