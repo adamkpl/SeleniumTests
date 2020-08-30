@@ -15,6 +15,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Login to an Account
@@ -42,8 +43,8 @@ public class LoginTest {
         driver.manage().window().maximize();
     }
 
-    @After
-    public void teardown() {
+    @AfterClass
+    public static void teardown() {
         if (driver != null) {
             driver.close();
             driver.quit();
@@ -68,13 +69,40 @@ public class LoginTest {
         // Then
         myAccount
                 .getWelcomeMessage();
-                takeScreenshot();
+                takeScreenshotLoginSuccess();
                 assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
 
     }
 
-    private void takeScreenshot() throws IOException {
-        TakeScreenshotWrapper.takeScreenshot(driver,"welcomeBackToYourAccount.png");
+    @Test
+    public void shouldFailToLoginToAccount() throws IOException {
+        // Given
+        mainPage
+                .navigateToMainPage()
+                .selectSignInLink()
+                .clickSignInLink();
+
+        // When
+        accountSignInPage
+                .loginToAccount()
+                    .withUsername("automationpractice@yopmail.com")
+                    .withPassword("ThisPasswordIsInvalid")
+                .clickSignInButton();
+
+        // Then
+        myAccount
+                .getAuthErrorMessage();
+                takeScreenshotLoginFail();
+                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+
+    }
+
+    private void takeScreenshotLoginSuccess() throws IOException {
+        TakeScreenshotWrapper.takeScreenshot(driver,"LoginSuccess.png");
+    }
+
+    private void takeScreenshotLoginFail() throws IOException {
+        TakeScreenshotWrapper.takeScreenshot(driver,"LoginFail.png");
     }
 
 }
