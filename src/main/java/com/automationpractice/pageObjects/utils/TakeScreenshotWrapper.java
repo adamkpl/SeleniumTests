@@ -10,10 +10,14 @@ import java.io.IOException;
 
 public class TakeScreenshotWrapper {
 
-    public static void takeScreenshot(WebDriver driver, String fileName) throws IOException {
-        File scrFile = ((TakesScreenshot) driver)
-                .getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(scrFile, new File("testOutputs/screenshots/" + fileName));
+    public static void takeScreenshot(WebDriver driver, String fileName) {
+        try {
+            File scrFile = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(scrFile, new File("testOutputs/screenshots/" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
