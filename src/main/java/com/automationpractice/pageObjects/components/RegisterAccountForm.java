@@ -14,6 +14,7 @@ import static net.andreinc.mockneat.unit.user.Passwords.passwords;
 import static net.andreinc.mockneat.unit.types.Ints.ints;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotSelectableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -65,24 +66,22 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     // OTHER
     @FindBy(name = "SubmitCreate")
-    private WebElement createAnAccountButton;
+    private WebElement createAccountButton;
     @FindBy(id = "submitAccount")
     private WebElement registerButton;
 
     // ERRORS
     @FindBy(id = "create_account_error")
-    private WebElement createAnAccountError;
+    private WebElement createAccountError;
 
     public RegisterAccountForm(WebDriver driver){
         super(driver);
     }
 
-    public RegisterAccountForm selectCreateNewAccountEmailAddressField(){
+    public RegisterAccountForm setEmailAddress(String emailAddress){
         WaitWrapper.waitForElement(getDriver(), emailAddressField);
-        return this;
-    }
 
-    public RegisterAccountForm setNewAccountEmailAddress(String emailAddress){
+        emailAddressField.isEnabled();
         emailAddressField.clear();
         emailAddressField.sendKeys(emailAddress);
 
@@ -90,19 +89,22 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomEmailAddress(){
-        emailAddressField.clear();
-        String randomEmailAddress = emails().supplier().get();
-        emailAddressField.sendKeys(randomEmailAddress);
+        WaitWrapper.waitForElement(getDriver(), emailAddressField);
 
+        emailAddressField.isEnabled();
+        String randomEmailAddress = emails().supplier().get();
+        emailAddressField.clear();
+        emailAddressField.sendKeys(randomEmailAddress);
         System.out.println("Random email: " + randomEmailAddress);
 
         return this;
     }
 
-    public RegisterAccountForm clickCreateNewAccountButton(){
-        WaitWrapper.waitForElement(getDriver(), createAnAccountButton);
+    public RegisterAccountForm clickCreateAccountButton(){
+        WaitWrapper.waitForElement(getDriver(), createAccountButton);
 
-        createAnAccountButton.click();
+        createAccountButton.isEnabled();
+        createAccountButton.click();
 
         return this;
     }
@@ -124,6 +126,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             gender_female.click();
             gender_female.isSelected();
         }
+
         return this;
     }
 
@@ -146,6 +149,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setFirstName(String aFirstName){
         WaitWrapper.waitForElement(getDriver(), firstName);
 
+        firstName.isEnabled();
         firstName.clear();
         firstName.sendKeys(aFirstName);
 
@@ -155,6 +159,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setLastName(String aLastName){
         WaitWrapper.waitForElement(getDriver(), lastName);
 
+        lastName.isEnabled();
         lastName.clear();
         lastName.sendKeys(aLastName);
 
@@ -164,10 +169,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomFirstName(){
         /* Could be aligned with results of setRandomGender().
         Female (0) or Male (1). */
-
         WaitWrapper.waitForElement(getDriver(), firstName);
-        firstName.clear();
 
+        firstName.isEnabled();
+        firstName.clear();
         String aFirstName;
         Random random = new Random();
         int selectGender = random.nextInt(2);
@@ -188,13 +193,12 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomLastName(){
         /* Could be aligned it with the results of setRandomGender() & setRandomFirstName() ONLY if name
         inflexion is applied. E.g in Polish language the last name would not be Kowalski but Kowalska. */
-
         WaitWrapper.waitForElement(getDriver(), lastName);
 
-        lastName.clear();
+        lastName.isEnabled();
         String aLastName = names().last().get();
+        lastName.clear();
         lastName.sendKeys(aLastName);
-
         System.out.println("Last name: " + aLastName);
 
         return this;
@@ -203,6 +207,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setPassword(String aPassword){
         WaitWrapper.waitForElement(getDriver(), password);
 
+        password.isEnabled();
         password.clear();
         password.sendKeys(aPassword);
 
@@ -212,73 +217,94 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomPassword(){
         WaitWrapper.waitForElement(getDriver(), password);
 
-        password.clear();
+        password.isEnabled();
         String aPassword = passwords().type(MEDIUM).get();
+        password.clear();
         password.sendKeys(aPassword);
-
         System.out.println("Password: " + aPassword);
 
         return this;
     }
 
-    public RegisterAccountForm selectDayOfBirth(int dayOfBirth){
+    public RegisterAccountForm selectDayOfBirth(int dayOfBirth) {
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
+
         dobDay = new Select(getDriver().findElement(By.id("days")));
-        dobDay.isMultiple();
-        dobDay.selectByIndex(dayOfBirth);
-
-        return this;
-    }
-
-    public RegisterAccountForm selectRandomDayOfBirth(){
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
-        dobDay = new Select(getDriver().findElement(By.id("days")));
-        dobDay.isMultiple();
-
         List<WebElement> selectDay = getDriver().findElements(
                 By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']"));
         int maxDays = selectDay.size();
+        if (maxDays > 0) {
+            dobDay.selectByIndex(dayOfBirth);
 
-        Random randDay = new Random();
-        int randomDay = randDay.nextInt(maxDays);
-        selectDay.get(randomDay).click();
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
+    }
 
-        System.out.println("Day of birth: " + randomDay);
+    public RegisterAccountForm selectRandomDayOfBirth() {
+        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
 
-        return this;
+        dobDay = new Select(getDriver().findElement(By.id("days")));
+        List<WebElement> selectDay = getDriver().findElements(
+                By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']"));
+        int maxDays = selectDay.size();
+        if (maxDays > 0) {
+            Random randDay = new Random();
+            int randomDay = randDay.nextInt(maxDays);
+            selectDay.get(randomDay).click();
+            System.out.println("Day of birth: " + randomDay);
+
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
     }
 
     public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
-        dobMonth = new Select(getDriver().findElement(By.id("months")));
-        dobMonth.isMultiple();
-        dobMonth.selectByIndex(monthOfBirth);
 
-        return this;
+        dobMonth = new Select(getDriver().findElement(By.id("months")));
+        List<WebElement> selectMonth = getDriver().findElements(
+                By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']"));
+        int maxMonths = selectMonth.size();
+        if (maxMonths > 0) {
+            dobMonth.selectByIndex(monthOfBirth);
+
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
+
     }
 
     public RegisterAccountForm selectRandomMonthOfBirth(){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
-        dobMonth = new Select(getDriver().findElement(By.id("months")));
-        dobMonth.isMultiple();
 
+        dobMonth = new Select(getDriver().findElement(By.id("months")));
         List<WebElement> selectMonth = getDriver().findElements(
                 By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']"));
         int maxMonths = selectMonth.size();
+        if (maxMonths > 0) {
+            Random randMonth = new Random();
+            int randomMonth = randMonth.nextInt(maxMonths);
+            selectMonth.get(randomMonth).click();
+            System.out.println("Month of birth: " + randomMonth);
 
-        Random randMonth = new Random();
-        int randomMonth = randMonth.nextInt(maxMonths);
-        selectMonth.get(randomMonth).click();
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
 
-        System.out.println("Month of birth: " + randomMonth);
-
-        return this;
     }
 
     public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
+
         dobYear = new Select(getDriver().findElement(By.id("years")));
-        dobYear.isMultiple();
+        List<WebElement> selectYear = getDriver().findElements(
+                By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']"));
+        int maxYears = selectYear.size();
         dobYear.selectByIndex(yearOfBirth);
 
         return this;
@@ -286,35 +312,41 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm selectRandomYearOfBirth(){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
-        dobYear = new Select(getDriver().findElement(By.id("years")));
-        dobYear.isMultiple();
 
+        dobYear = new Select(getDriver().findElement(By.id("years")));
         List<WebElement> selectYear = getDriver().findElements(
                 By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']"));
         int maxYears = selectYear.size();
+        if (maxYears > 0) {
+            Random randYear = new Random();
+            int randomYear = randYear.nextInt(maxYears);
+            selectYear.get(randomYear).click();
+            System.out.println("Year of birth: " + randomYear);
 
-        Random randYear = new Random();
-        int randomYear = randYear.nextInt(maxYears);
-        selectYear.get(randomYear).click();
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
 
-        System.out.println("Year of birth: " + randomYear);
-        return this;
     }
 
     public RegisterAccountForm setAddress(String aAddress){
         WaitWrapper.waitForElement(getDriver(), address);
+
+        address.isEnabled();
         address.clear();
         address.sendKeys(aAddress);
+
         return this;
     }
 
     public RegisterAccountForm setRandomAddress(){
         WaitWrapper.waitForElement(getDriver(), address);
 
+        address.isEnabled();
         String randWord = words().nouns().get();
         Integer apartmentNumber = ints().range(1,999).get();
         String fullAddress = randWord + " " + apartmentNumber;
-
         address.clear();
         address.sendKeys(fullAddress);
 
@@ -324,6 +356,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setCity(String aCity){
         WaitWrapper.waitForElement(getDriver(), city);
 
+        city.isEnabled();
         city.clear();
         city.sendKeys(aCity);
 
@@ -332,11 +365,11 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm setRandomUSACity(){
+    public RegisterAccountForm setRandomCity(){
         WaitWrapper.waitForElement(getDriver(), city);
 
-        String aCity = cities().us().get();
-
+        city.isEnabled();
+        String aCity = cities().capitals().get();
         city.clear();
         city.sendKeys(aCity);
 
@@ -345,49 +378,59 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm selectState(int aState){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
-        state = new Select(getDriver().findElement(By.id("id_state")));
-        state.isMultiple();
-        state.selectByIndex(aState);
 
-        return this;
+        state = new Select(getDriver().findElement(By.id("id_state")));
+        List<WebElement> selectState = getDriver().findElements(
+                By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']"));
+        int maxStates = selectState.size();
+        if(maxStates > 0) {
+            state.selectByIndex(aState);
+
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
+
     }
 
     public RegisterAccountForm selectRandomState(){
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
-        state = new Select(getDriver().findElement(By.id("id_state")));
-        state.isMultiple();
 
+        state = new Select(getDriver().findElement(By.id("id_state")));
         List<WebElement> selectState = getDriver().findElements(
                 By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']"));
         int maxStates = selectState.size();
+        if(maxStates > 0) {
+            Random randState = new Random();
+            int randomState = randState.nextInt(maxStates);
+            selectState.get(randomState).click();
+            System.out.println("State: " + randomState);
 
-        Random randState = new Random();
-        int randomState = randState.nextInt(maxStates);
-        selectState.get(randomState).click();
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
 
-        System.out.println("State: " + randomState);
-
-        return this;
     }
 
     public RegisterAccountForm setPostcode(CharSequence aPostCode){
         WaitWrapper.waitForElement(getDriver(), postcode);
+
+        postcode.isEnabled();
         postcode.clear();
         postcode.sendKeys(aPostCode);
+
         return this;
     }
 
     public RegisterAccountForm setRandomPostcode(){
         /* In real life the post codes contain alphanumeric characters, but here
         the form accepts only 5-digit format value e.g 00000. */
-
         WaitWrapper.waitForElement(getDriver(), postcode);
 
         Integer aPostcode = ints().range(10000,99999).get();
-
         postcode.clear();
         postcode.sendKeys(aPostcode.toString());
-
         System.out.println("Postcode: " + aPostcode);
 
         return this;
@@ -396,34 +439,48 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm selectCountry(int aCountry){
         // The United States value is automatically selected by default
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
+
         country = new Select(getDriver().findElement(By.id("id_country")));
-        country.isMultiple();
-        country.selectByIndex(aCountry);
-        return this;
+        List<WebElement> selectCountry = getDriver().findElements(
+                By.xpath("//SELECT[@id='id_country']/self::SELECT/option[@value>'0']"));
+        int maxCountry = selectCountry.size();
+        if(maxCountry > 0) {
+            country.selectByIndex(aCountry);
+
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
+
     }
 
     public RegisterAccountForm selectRandomCountry(){
         // The United States value is automatically selected by default
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
-        country = new Select(getDriver().findElement(By.id("id_country")));
-        country.isMultiple();
 
+        country = new Select(getDriver().findElement(By.id("id_country")));
         List<WebElement> selectCountry = getDriver().findElements(
                 By.xpath("//SELECT[@id='id_country']/self::SELECT/option[@value>'0']"));
         int maxCountry = selectCountry.size();
+        if(maxCountry > 0) {
+            Random randCountry = new Random();
+            int randomCountry = randCountry.nextInt(maxCountry);
+            selectCountry.get(randomCountry).click();
+            System.out.println("Country: " + randomCountry);
 
-        Random randCountry = new Random();
-        int randomCountry = randCountry.nextInt(maxCountry);
-        selectCountry.get(randomCountry).click();
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
 
-        System.out.println("Country: " + randomCountry);
-
-        return this;
     }
 
     public RegisterAccountForm setMobilePhoneNumber(CharSequence mobilePhoneNumber){
+        /* On many websites, phone numbers are typed with non-integer characters such as + or - with
+        additional prefix numbers, but here we simply generate a 9-digit number. */
         WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
+        phone_mobile.isEnabled();
         phone_mobile.clear();
         phone_mobile.sendKeys(mobilePhoneNumber);
 
@@ -433,14 +490,12 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomMobilePhoneNumber(){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-
         WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
         Integer aPhoneMobileNumber = ints().range(100000000,999999999).get();
-
+        phone_mobile.isEnabled();
         phone_mobile.clear();
         phone_mobile.sendKeys(aPhoneMobileNumber.toString());
-
         System.out.println("Mobile phone number: " + aPhoneMobileNumber);
 
         return this;
@@ -449,6 +504,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setAddressAlias(String aAddressAlias){
         WaitWrapper.waitForElement(getDriver(), addressAlias);
 
+        addressAlias.isEnabled();
         addressAlias.clear();
         addressAlias.sendKeys(aAddressAlias);
 
@@ -458,8 +514,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomAddressAlias(){
         WaitWrapper.waitForElement(getDriver(), addressAlias);
 
+        addressAlias.isEnabled();
         String randWord = words().nouns().get();
-
         addressAlias.clear();
         addressAlias.sendKeys(randWord);
 

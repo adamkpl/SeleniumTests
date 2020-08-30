@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * Login to an Account
  * Page Object Pattern with "Fluent API"
- * @since Beta 0.1 2020-02-18
+ * @since 2020-02-18
  * @author Adam K.
  */
 

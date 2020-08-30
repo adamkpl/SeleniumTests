@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Create an account
  * Page Object Pattern with "Fluent API"
- * @since Beta 0.11 2020-02-07
+ * @since 2020-02-07
  * @author Adam K.
  */
 
@@ -60,9 +60,8 @@ public class CreateAccountTest {
         // When
         accountSignInPage
                 .createAnAccount()
-                    .selectCreateNewAccountEmailAddressField()
                     .setRandomEmailAddress()
-                    .clickCreateNewAccountButton()
+                    .clickCreateAccountButton()
                     .setRandomGender()
                     .setRandomFirstName()
                     .setRandomLastName()
@@ -71,7 +70,7 @@ public class CreateAccountTest {
                     .selectRandomMonthOfBirth()
                     .selectRandomYearOfBirth()
                     .setRandomAddress()
-                    .setRandomUSACity()
+                    .setRandomCity()
                     .selectRandomState()
                     .setRandomPostcode()
                     .setRandomMobilePhoneNumber()
@@ -87,7 +86,7 @@ public class CreateAccountTest {
     }
 
     private void takeScreenshot() {
-        TakeScreenshotWrapper.takeScreenshot(driver,"welcomeMessageMyAccount.png");
+        TakeScreenshotWrapper.takeScreenshot(driver,"RegisterAccount_Success.png");
     }
 
 }
