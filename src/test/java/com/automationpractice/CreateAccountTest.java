@@ -48,7 +48,7 @@ public class CreateAccountTest {
     }
 
     @Test
-    public void ShouldRegisterAccount() throws IOException {
+    public void shouldRegisterAccount() throws IOException {
         // Given
         mainPage
                 .navigateToMainPage()
