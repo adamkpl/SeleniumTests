@@ -49,6 +49,8 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     // YOUR ADDRESS
     // required
+    @FindBy(id = "company")
+    private WebElement company;
     @FindBy(id = "address1")
     private WebElement address;
     @FindBy(id = "city")
@@ -59,12 +61,20 @@ public class RegisterAccountForm extends AbstractPageObject {
     private WebElement postcode;
     @FindBy(id = "id_country")
     private Select country; // local var
+    @FindBy(id = "other")
+    private WebElement additionalInformationForm;
+    @FindBy(id = "phone")
+    private WebElement phone_home;
     @FindBy(id = "phone_mobile")
     private WebElement phone_mobile;
     @FindBy(id = "alias")
     private WebElement addressAlias;
 
     // OTHER
+    @FindBy(id = "uniform-newsletter")
+    private WebElement newsletter;
+    @FindBy(id = "uniform-optin")
+    private WebElement newsletterSpecialOffers;
     @FindBy(name = "SubmitCreate")
     private WebElement createAccountButton;
     @FindBy(id = "submitAccount")
@@ -226,6 +236,28 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
+    public RegisterAccountForm checkNewsletter(){
+        WaitWrapper.waitForElement(getDriver(), newsletter);
+
+        newsletter.isEnabled();
+        if (!newsletter.isSelected()) {
+            newsletter.click();
+        }
+
+        return this;
+    }
+
+    public RegisterAccountForm checkSpecialOffers(){
+        WaitWrapper.waitForElement(getDriver(), newsletterSpecialOffers);
+
+        newsletterSpecialOffers.isEnabled();
+        if (!newsletterSpecialOffers.isSelected()) {
+            newsletterSpecialOffers.click();
+        }
+
+        return this;
+    }
+
     public RegisterAccountForm selectDayOfBirth(int dayOfBirth) {
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
 
@@ -330,6 +362,27 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
+    public RegisterAccountForm setAdditionalInformation(String additionalInfo){
+        WaitWrapper.waitForElement(getDriver(), additionalInformationForm);
+
+        additionalInformationForm.isEnabled();
+        additionalInformationForm.clear();
+        additionalInformationForm.sendKeys(additionalInfo);
+
+        return this;
+    }
+
+    public RegisterAccountForm setRandomAdditionalInformation(){
+        WaitWrapper.waitForElement(getDriver(), additionalInformationForm);
+
+        additionalInformationForm.isEnabled();
+        String randWord = words().nouns().get();
+        additionalInformationForm.clear();
+        additionalInformationForm.sendKeys(randWord);
+
+        return this;
+    }
+
     public RegisterAccountForm setAddress(String aAddress){
         WaitWrapper.waitForElement(getDriver(), address);
 
@@ -349,6 +402,27 @@ public class RegisterAccountForm extends AbstractPageObject {
         String fullAddress = randWord + " " + apartmentNumber;
         address.clear();
         address.sendKeys(fullAddress);
+
+        return this;
+    }
+
+    public RegisterAccountForm setCompany(String aCompany){
+        WaitWrapper.waitForElement(getDriver(), company);
+
+        company.isEnabled();
+        company.clear();
+        company.sendKeys(aCompany);
+
+        return this;
+    }
+
+    public RegisterAccountForm setRandomCompany(){
+        WaitWrapper.waitForElement(getDriver(), company);
+
+        company.isEnabled();
+        String companyName = words().nouns().get();
+        company.clear();
+        company.sendKeys(companyName);
 
         return this;
     }
@@ -473,6 +547,32 @@ public class RegisterAccountForm extends AbstractPageObject {
             throw new ElementNotSelectableException("Unable to select.");
         }
 
+    }
+
+    public RegisterAccountForm setPhoneNumber(CharSequence mobilePhoneNumber){
+        /* On many websites, phone numbers are typed with non-integer characters such as + or - with
+        additional prefix numbers, but here we simply generate a 9-digit number. */
+        WaitWrapper.waitForElement(getDriver(), phone_home);
+
+        phone_home.isEnabled();
+        phone_home.clear();
+        phone_home.sendKeys(mobilePhoneNumber);
+
+        return this;
+    }
+
+    public RegisterAccountForm setRandomPhoneNumber(){
+        /* On many websites, phone numbers are typed with non-integer characters such as + or - with
+        additional prefix numbers, but here we simply generate a 9-digit number. */
+        WaitWrapper.waitForElement(getDriver(), phone_mobile);
+
+        Integer aPhoneNumber = ints().range(100000000,999999999).get();
+        phone_home.isEnabled();
+        phone_home.clear();
+        phone_home.sendKeys(aPhoneNumber.toString());
+        System.out.println("Mobile phone number: " + aPhoneNumber);
+
+        return this;
     }
 
     public RegisterAccountForm setMobilePhoneNumber(CharSequence mobilePhoneNumber){
