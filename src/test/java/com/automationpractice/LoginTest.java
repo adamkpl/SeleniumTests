@@ -40,6 +40,7 @@ public class LoginTest {
     @Before
     public void setupTest() {
         driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
     }
 
     @AfterClass
