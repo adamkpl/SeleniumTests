@@ -72,7 +72,6 @@ public class WaitWrapper {
     public static boolean retryWaitForElement(WebDriver driver, By locator) {
         int retryCount = 5;
         while (true) {
-            System.out.println("retryCount: " + retryCount);
             retryCount--;
             try {
                 WaitWrapper.waitFluentlyForElement(driver, locator, 3, 1);
@@ -88,7 +87,6 @@ public class WaitWrapper {
     public static boolean retryWaitForElement(WebDriver driver, By locator, int withTimeoutInSeconds, int pollingEveryInSeconds) {
         int retryCount = 5;
         while (true) {
-            System.out.println("retryCount: " + retryCount);
             retryCount--;
             try {
                 WaitWrapper.waitFluentlyForElement(driver, locator, withTimeoutInSeconds, pollingEveryInSeconds);
