@@ -64,7 +64,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     @FindBy(id = "other")
     private WebElement additionalInformationForm;
     @FindBy(id = "phone")
-    private WebElement phone_home;
+    private WebElement phoneHome;
     @FindBy(id = "phone_mobile")
     private WebElement phone_mobile;
     @FindBy(id = "alias")
@@ -549,14 +549,14 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm setPhoneNumber(CharSequence mobilePhoneNumber){
+    public RegisterAccountForm setPhoneNumber(CharSequence aPhoneHome){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phone_home);
+        WaitWrapper.waitForElement(getDriver(), phoneHome);
 
-        phone_home.isEnabled();
-        phone_home.clear();
-        phone_home.sendKeys(mobilePhoneNumber);
+        phoneHome.isEnabled();
+        phoneHome.clear();
+        phoneHome.sendKeys(aPhoneHome);
 
         return this;
     }
@@ -566,11 +566,11 @@ public class RegisterAccountForm extends AbstractPageObject {
         additional prefix numbers, but here we simply generate a 9-digit number. */
         WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
+        phoneHome.isEnabled();
         Integer aPhoneNumber = ints().range(100000000,999999999).get();
-        phone_home.isEnabled();
-        phone_home.clear();
-        phone_home.sendKeys(aPhoneNumber.toString());
-        System.out.println("Mobile phone number: " + aPhoneNumber);
+        phoneHome.clear();
+        phoneHome.sendKeys(aPhoneNumber.toString());
+        System.out.println("Home phone number: " + aPhoneNumber);
 
         return this;
     }
@@ -592,8 +592,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         additional prefix numbers, but here we simply generate a 9-digit number. */
         WaitWrapper.waitForElement(getDriver(), phone_mobile);
 
-        Integer aPhoneMobileNumber = ints().range(100000000,999999999).get();
         phone_mobile.isEnabled();
+        Integer aPhoneMobileNumber = ints().range(100000000,999999999).get();
         phone_mobile.clear();
         phone_mobile.sendKeys(aPhoneMobileNumber.toString());
         System.out.println("Mobile phone number: " + aPhoneMobileNumber);
