@@ -3,16 +3,7 @@ package com.automationpractice.pageObjects.components;
 import com.automationpractice.pageObjects.pages.AbstractPageObject;
 import com.automationpractice.pageObjects.pages.AccountSignInPage;
 import com.automationpractice.pageObjects.utils.WaitWrapper;
-
-import static com.automationpractice.pageObjects.utils.WaitWrapper.retryWaitForElement;
-import static net.andreinc.mockneat.types.enums.PassStrengthType.MEDIUM;
-import static net.andreinc.mockneat.unit.address.Cities.cities;
-import static net.andreinc.mockneat.unit.text.Words.words;
-import static net.andreinc.mockneat.unit.user.Emails.emails;
-import static net.andreinc.mockneat.unit.user.Names.names;
-import static net.andreinc.mockneat.unit.user.Passwords.passwords;
-import static net.andreinc.mockneat.unit.types.Ints.ints;
-
+import net.andreinc.mockneat.abstraction.MockUnitString;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotSelectableException;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +13,18 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.Random;
+
+import static com.automationpractice.pageObjects.utils.WaitWrapper.retryWaitForElement;
+import static net.andreinc.mockneat.types.enums.PassStrengthType.MEDIUM;
+import static net.andreinc.mockneat.types.enums.StringFormatType.CAPITALIZED;
+import static net.andreinc.mockneat.unit.address.Cities.cities;
+import static net.andreinc.mockneat.unit.objects.Probabilities.probabilities;
+import static net.andreinc.mockneat.unit.text.Formatter.fmt;
+import static net.andreinc.mockneat.unit.text.Words.words;
+import static net.andreinc.mockneat.unit.types.Ints.ints;
+import static net.andreinc.mockneat.unit.user.Emails.emails;
+import static net.andreinc.mockneat.unit.user.Names.names;
+import static net.andreinc.mockneat.unit.user.Passwords.passwords;
 
 public class RegisterAccountForm extends AbstractPageObject {
 
@@ -94,18 +97,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         emailAddressField.isEnabled();
         emailAddressField.clear();
         emailAddressField.sendKeys(emailAddress);
+        System.out.println("Email: " + emailAddress);
 
         return this;
     }
 
     public RegisterAccountForm setRandomEmailAddress(){
-        WaitWrapper.waitForElement(getDriver(), emailAddressField);
-
-        emailAddressField.isEnabled();
         String randomEmailAddress = emails().supplier().get();
-        emailAddressField.clear();
-        emailAddressField.sendKeys(randomEmailAddress);
-        System.out.println("Random email: " + randomEmailAddress);
+        setEmailAddress(randomEmailAddress);
 
         return this;
     }
@@ -126,6 +125,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         if (retryWaitForElement(getDriver(), By.id("id_gender1"), 2, 1)) {
             gender_male.click();
             gender_male.isSelected();
+            System.out.println("Gender: Male");
         }
 
         return this;
@@ -135,6 +135,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         if (retryWaitForElement(getDriver(), By.id("id_gender2"), 2, 1)) {
             gender_female.click();
             gender_female.isSelected();
+            System.out.println("Gender: Female");
         }
 
         return this;
@@ -147,10 +148,8 @@ public class RegisterAccountForm extends AbstractPageObject {
 
         if (randomGender == 0) {
             setGenderMale();
-            System.out.println("Gender: Male");
         } else {
             setGenderFemale();
-            System.out.println("Gender: Female");
         }
 
         return this;
@@ -162,6 +161,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         firstName.isEnabled();
         firstName.clear();
         firstName.sendKeys(aFirstName);
+        System.out.println("First name: " + aFirstName);
 
         return this;
     }
@@ -172,6 +172,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         lastName.isEnabled();
         lastName.clear();
         lastName.sendKeys(aLastName);
+        System.out.println("Last name: " + aLastName);
 
         return this;
     }
@@ -179,22 +180,16 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomFirstName(){
         /* Could be aligned with results of setRandomGender().
         Female (0) or Male (1). */
-        WaitWrapper.waitForElement(getDriver(), firstName);
-
-        firstName.isEnabled();
-        firstName.clear();
         String aFirstName;
         Random random = new Random();
         int selectGender = random.nextInt(2);
 
         if (selectGender == 0) {
             aFirstName = names().firstAndFemale().get();
-            firstName.sendKeys(aFirstName);
-            System.out.println("First name Female: " + aFirstName);
+            setFirstName(aFirstName);
         } else {
             aFirstName = names().firstAndMale().get();
-            firstName.sendKeys(aFirstName);
-            System.out.println("First name Male: " + aFirstName);
+            setFirstName(aFirstName);
         }
 
         return this;
@@ -203,13 +198,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomLastName(){
         /* Could be aligned it with the results of setRandomGender() & setRandomFirstName() ONLY if name
         inflexion is applied. E.g in Polish language the last name would not be Kowalski but Kowalska. */
-        WaitWrapper.waitForElement(getDriver(), lastName);
-
-        lastName.isEnabled();
         String aLastName = names().last().get();
-        lastName.clear();
-        lastName.sendKeys(aLastName);
-        System.out.println("Last name: " + aLastName);
+        setLastName(aLastName);
 
         return this;
     }
@@ -220,18 +210,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         password.isEnabled();
         password.clear();
         password.sendKeys(aPassword);
+        System.out.println("Password: " + aPassword);
 
         return this;
     }
 
     public RegisterAccountForm setRandomPassword(){
-        WaitWrapper.waitForElement(getDriver(), password);
-
-        password.isEnabled();
         String aPassword = passwords().type(MEDIUM).get();
-        password.clear();
-        password.sendKeys(aPassword);
-        System.out.println("Password: " + aPassword);
+        setPassword(aPassword);
 
         return this;
     }
@@ -258,7 +244,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm selectDayOfBirth(int dayOfBirth) {
+    public RegisterAccountForm selectDayOfBirth(int dayOfBirth) { // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
 
         dobDay = new Select(getDriver().findElement(By.id("days")));
@@ -274,18 +260,18 @@ public class RegisterAccountForm extends AbstractPageObject {
         }
     }
 
-    public RegisterAccountForm selectRandomDayOfBirth() {
+    public RegisterAccountForm selectRandomDayOfBirth() { // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
 
         dobDay = new Select(getDriver().findElement(By.id("days")));
         List<WebElement> selectDay = getDriver().findElements(
-                By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']"));
+                By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
         int maxDays = selectDay.size();
         if (maxDays > 0) {
             Random randDay = new Random();
             int randomDay = randDay.nextInt(maxDays);
             selectDay.get(randomDay).click();
-            System.out.println("Day of birth: " + randomDay);
+            System.out.println("Day of birth (position on list): " + randomDay + ", value = " + dobDay.getOptions().get(randomDay + 1).getText()); // Increment by 1 to adjust printed text value from index
 
             return this;
         } else {
@@ -293,7 +279,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         }
     }
 
-    public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
+    public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
 
         dobMonth = new Select(getDriver().findElement(By.id("months")));
@@ -310,18 +296,18 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectRandomMonthOfBirth(){
+    public RegisterAccountForm selectRandomMonthOfBirth(){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
 
         dobMonth = new Select(getDriver().findElement(By.id("months")));
         List<WebElement> selectMonth = getDriver().findElements(
-                By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']"));
+                By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
         int maxMonths = selectMonth.size();
         if (maxMonths > 0) {
             Random randMonth = new Random();
             int randomMonth = randMonth.nextInt(maxMonths);
             selectMonth.get(randomMonth).click();
-            System.out.println("Month of birth: " + randomMonth);
+            System.out.println("Month of birth (position on list): " + randomMonth + ", value = " + dobMonth.getOptions().get(randomMonth + 1).getText()); // Increment by 1 to adjust printed text value from index
 
             return this;
         } else {
@@ -330,7 +316,7 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
+    public RegisterAccountForm selectYearOfBirth(int yearOfBirth){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
 
         dobYear = new Select(getDriver().findElement(By.id("years")));
@@ -342,18 +328,18 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm selectRandomYearOfBirth(){
+    public RegisterAccountForm selectRandomYearOfBirth(){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
 
         dobYear = new Select(getDriver().findElement(By.id("years")));
         List<WebElement> selectYear = getDriver().findElements(
-                By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']"));
+                By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
         int maxYears = selectYear.size();
         if (maxYears > 0) {
             Random randYear = new Random();
             int randomYear = randYear.nextInt(maxYears);
             selectYear.get(randomYear).click();
-            System.out.println("Year of birth: " + randomYear);
+            System.out.println("Year of birth (position on list): " + randomYear + ", value = " + dobYear.getOptions().get(randomYear + 1).getText()); // Increment by 1 to adjust printed text value from index
 
             return this;
         } else {
@@ -368,17 +354,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         additionalInformationForm.isEnabled();
         additionalInformationForm.clear();
         additionalInformationForm.sendKeys(additionalInfo);
+        System.out.println("Additional Info: " + additionalInfo);
 
         return this;
     }
 
     public RegisterAccountForm setRandomAdditionalInformation(){
-        WaitWrapper.waitForElement(getDriver(), additionalInformationForm);
-
-        additionalInformationForm.isEnabled();
         String randWord = words().nouns().get();
-        additionalInformationForm.clear();
-        additionalInformationForm.sendKeys(randWord);
+        setAdditionalInformation(randWord);
 
         return this;
     }
@@ -389,19 +372,31 @@ public class RegisterAccountForm extends AbstractPageObject {
         address.isEnabled();
         address.clear();
         address.sendKeys(aAddress);
+        System.out.println("Address: " + aAddress);
 
         return this;
     }
 
     public RegisterAccountForm setRandomAddress(){
-        WaitWrapper.waitForElement(getDriver(), address);
+        MockUnitString randomAddress = fmt("#{adj}#{noun} #{suffix} #{nr}")
+                .param("adj", probabilities(String.class)
+                        .add(0.25, words()
+                                .adjectives()
+                                .format(CAPITALIZED)
+                                .append(" ")
+                        )
+                        .add(0.75, "")
+                        .mapToString()
+                )
+                .param("noun", words().nouns().format(CAPITALIZED))
+                .param("suffix", probabilities(String.class)
+                        .add(0.25, "Lane")
+                        .add(0.25, "Blvd.")
+                        .add(0.50, "Street")
+                        .mapToString())
+                .param("nr", ints().range(1, 600));
 
-        address.isEnabled();
-        String randWord = words().nouns().get();
-        Integer apartmentNumber = ints().range(1,999).get();
-        String fullAddress = randWord + " " + apartmentNumber;
-        address.clear();
-        address.sendKeys(fullAddress);
+        setAddress(randomAddress.accumulate(1, "\n").get());
 
         return this;
     }
@@ -412,17 +407,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         company.isEnabled();
         company.clear();
         company.sendKeys(aCompany);
+        System.out.println("Company: " + aCompany);
 
         return this;
     }
 
     public RegisterAccountForm setRandomCompany(){
-        WaitWrapper.waitForElement(getDriver(), company);
-
-        company.isEnabled();
         String companyName = words().nouns().get();
-        company.clear();
-        company.sendKeys(companyName);
+        setCompany(companyName);
 
         return this;
     }
@@ -433,24 +425,19 @@ public class RegisterAccountForm extends AbstractPageObject {
         city.isEnabled();
         city.clear();
         city.sendKeys(aCity);
-
         System.out.println("City: " + aCity);
 
         return this;
     }
 
     public RegisterAccountForm setRandomCity(){
-        WaitWrapper.waitForElement(getDriver(), city);
-
-        city.isEnabled();
         String aCity = cities().capitals().get();
-        city.clear();
-        city.sendKeys(aCity);
+        setCity(aCity);
 
         return this;
     }
 
-    public RegisterAccountForm selectState(int aState){
+    public RegisterAccountForm selectState(int aState){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
 
         state = new Select(getDriver().findElement(By.id("id_state")));
@@ -467,19 +454,19 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectRandomState(){
+    public RegisterAccountForm selectRandomState(){ // todo refactor
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
 
         state = new Select(getDriver().findElement(By.id("id_state")));
         List<WebElement> selectState = getDriver().findElements(
-                By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']"));
+                By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
         int maxStates = selectState.size();
         if(maxStates > 0) {
             Random randState = new Random();
             int randomState = randState.nextInt(maxStates);
             selectState.get(randomState).click();
-            System.out.println("State: " + randomState);
 
+            System.out.println("State (position on list): " + randomState + ", value = " + state.getOptions().get(randomState + 1).getText()); // Increment by 1 to adjust printed text value from index
             return this;
         } else {
             throw new ElementNotSelectableException("Unable to select.");
@@ -487,30 +474,27 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm setPostcode(CharSequence aPostCode){
-        WaitWrapper.waitForElement(getDriver(), postcode);
-
-        postcode.isEnabled();
-        postcode.clear();
-        postcode.sendKeys(aPostCode);
-
-        return this;
-    }
-
-    public RegisterAccountForm setRandomPostcode(){
+    public RegisterAccountForm setPostcode(CharSequence aPostcode){
         /* In real life the post codes contain alphanumeric characters, but here
         the form accepts only 5-digit format value e.g 00000. */
         WaitWrapper.waitForElement(getDriver(), postcode);
 
-        Integer aPostcode = ints().range(10000,99999).get();
+        postcode.isEnabled();
         postcode.clear();
-        postcode.sendKeys(aPostcode.toString());
+        postcode.sendKeys(aPostcode);
         System.out.println("Postcode: " + aPostcode);
 
         return this;
     }
 
-    public RegisterAccountForm selectCountry(int aCountry){
+    public RegisterAccountForm setRandomPostcode(){
+        String aPostcode = ints().range(10000,99999).get().toString();
+        setPostcode(aPostcode);
+
+        return this;
+    }
+
+    public RegisterAccountForm selectCountry(int aCountry){ // todo refactor
         // The United States value is automatically selected by default
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
 
@@ -528,7 +512,7 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectRandomCountry(){
+    public RegisterAccountForm selectRandomCountry(){ // todo refactor
         // The United States value is automatically selected by default
         WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
 
@@ -557,6 +541,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         phoneHome.isEnabled();
         phoneHome.clear();
         phoneHome.sendKeys(aPhoneHome);
+        System.out.println("Home phone number: " + aPhoneHome);
 
         return this;
     }
@@ -564,13 +549,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomPhoneNumber(){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phone_mobile);
-
-        phoneHome.isEnabled();
-        Integer aPhoneNumber = ints().range(100000000,999999999).get();
-        phoneHome.clear();
-        phoneHome.sendKeys(aPhoneNumber.toString());
-        System.out.println("Home phone number: " + aPhoneNumber);
+        String aPhoneNumber = ints().range(100000000,999999999).get().toString();
+        setPhoneNumber(aPhoneNumber);
 
         return this;
     }
@@ -583,6 +563,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         phone_mobile.isEnabled();
         phone_mobile.clear();
         phone_mobile.sendKeys(mobilePhoneNumber);
+        System.out.println("Mobile phone number: " + mobilePhoneNumber);
 
         return this;
     }
@@ -590,13 +571,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomMobilePhoneNumber(){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phone_mobile);
-
-        phone_mobile.isEnabled();
-        Integer aPhoneMobileNumber = ints().range(100000000,999999999).get();
-        phone_mobile.clear();
-        phone_mobile.sendKeys(aPhoneMobileNumber.toString());
-        System.out.println("Mobile phone number: " + aPhoneMobileNumber);
+        String aPhoneMobileNumber = ints().range(100000000,999999999).get().toString();
+        setMobilePhoneNumber(aPhoneMobileNumber);
 
         return this;
     }
@@ -612,12 +588,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomAddressAlias(){
-        WaitWrapper.waitForElement(getDriver(), addressAlias);
-
-        addressAlias.isEnabled();
         String randWord = words().nouns().get();
-        addressAlias.clear();
-        addressAlias.sendKeys(randWord);
+        setAddressAlias(randWord);
 
         return this;
     }
