@@ -186,11 +186,10 @@ public class RegisterAccountForm extends AbstractPageObject {
 
         if (selectGender == 0) {
             aFirstName = names().firstAndFemale().get();
-            setFirstName(aFirstName);
         } else {
             aFirstName = names().firstAndMale().get();
-            setFirstName(aFirstName);
         }
+        setFirstName(aFirstName);
 
         return this;
     }
