@@ -70,6 +70,7 @@ public class CreateAccountTest {
                     .setRandomCity()
                     .selectRandomState()
                     .setRandomPostcode()
+                    .selectRandomCountry()
                     .setRandomMobilePhoneNumber()
                     .setRandomAddressAlias()
                     .clickRegisterButton();
@@ -110,6 +111,7 @@ public class CreateAccountTest {
                     .setRandomCity()
                     .selectRandomState()
                     .setRandomPostcode()
+                    .selectRandomCountry()
                     .setRandomAdditionalInformation()
                     .setRandomPhoneNumber()
                     .setRandomMobilePhoneNumber()
