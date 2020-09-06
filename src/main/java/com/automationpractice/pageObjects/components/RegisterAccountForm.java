@@ -40,15 +40,18 @@ public class RegisterAccountForm extends AbstractPageObject {
     private WebElement password;
     // optional
     @FindBy(id = "id_gender1")
-    private WebElement gender_male;
+    private WebElement genderMale;
     @FindBy(id = "id_gender2")
-    private WebElement gender_female;
-    @FindBy(id = "days")
-    private Select dobDay; // local var
-    @FindBy(id = "months")
-    private Select dobMonth; // local var
-    @FindBy(id = "years")
-    private Select dobYear; // local var
+    private WebElement genderFemale;
+    private By days = By.id("days"); // if xpath then Exception: Element should have been "select" but was "option"
+    private By dobDaysList = By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']"); // '-' option excluded
+    private Select dobDay; // initialized as local var
+    private By months = By.id("months");
+    private By dobMonthList = By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']"); // '-' option excluded
+    private Select dobMonth; // initialized as local var
+    private By years = By.id("years");
+    private By dobYearList = By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']"); // '-' option excluded
+    private Select dobYear; // initialized as local var
 
     // YOUR ADDRESS
     // required
@@ -58,18 +61,20 @@ public class RegisterAccountForm extends AbstractPageObject {
     private WebElement address;
     @FindBy(id = "city")
     private WebElement city;
-    @FindBy(id = "id_state")
-    private Select state; // local var
+    private By state = By.id("id_state"); // if xpath then Exception: Element should have been "select" but was "option"
+    private By stateList = By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']"); // '-' option excluded
+    private Select stateSelect; // initialized as local var
     @FindBy(id = "postcode")
     private WebElement postcode;
-    @FindBy(id = "id_country")
-    private Select country; // local var
+    private By country = By.id("id_country"); // if xpath then Exception: Element should have been "select" but was "option"
+    private By countryList = By.xpath("//SELECT[@id='id_country']/self::SELECT/option[@value>'0']"); // '-' option excluded
+    private Select countrySelect; // initialized as local var
     @FindBy(id = "other")
     private WebElement additionalInformationForm;
     @FindBy(id = "phone")
     private WebElement phoneHome;
     @FindBy(id = "phone_mobile")
-    private WebElement phone_mobile;
+    private WebElement phoneMobile;
     @FindBy(id = "alias")
     private WebElement addressAlias;
 
@@ -123,8 +128,8 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm setGenderMale(){
         if (retryWaitForElement(getDriver(), By.id("id_gender1"), 2, 1)) {
-            gender_male.click();
-            gender_male.isSelected();
+            genderMale.click();
+            genderMale.isSelected();
             System.out.println("Gender: Male");
         }
 
@@ -133,8 +138,8 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm setGenderFemale(){
         if (retryWaitForElement(getDriver(), By.id("id_gender2"), 2, 1)) {
-            gender_female.click();
-            gender_female.isSelected();
+            genderFemale.click();
+            genderFemale.isSelected();
             System.out.println("Gender: Female");
         }
 
@@ -243,15 +248,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm selectDayOfBirth(int dayOfBirth) { // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
+    public RegisterAccountForm selectDayOfBirth(int dayOfBirth) {
+        WaitWrapper.waitFluentlyForElement(getDriver(), days);
 
-        dobDay = new Select(getDriver().findElement(By.id("days")));
-        List<WebElement> selectDay = getDriver().findElements(
-                By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']"));
-        int maxDays = selectDay.size();
-        if (maxDays > 0) {
+        dobDay = new Select(getDriver().findElement(days));
+        List<WebElement> selectDay = getDriver().findElements(dobDaysList);
+        if (selectDay.size() > 0) {
             dobDay.selectByIndex(dayOfBirth);
+            System.out.println("Day of birth (position on list): " + dayOfBirth + ", value = " + dobDay.getOptions().get(dayOfBirth).getText());
 
             return this;
         } else {
@@ -259,92 +263,65 @@ public class RegisterAccountForm extends AbstractPageObject {
         }
     }
 
-    public RegisterAccountForm selectRandomDayOfBirth() { // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("days"));
-
-        dobDay = new Select(getDriver().findElement(By.id("days")));
-        List<WebElement> selectDay = getDriver().findElements(
-                By.xpath("//SELECT[@id='days']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
-        int maxDays = selectDay.size();
-        if (maxDays > 0) {
-            Random randDay = new Random();
-            int randomDay = randDay.nextInt(maxDays);
-            selectDay.get(randomDay).click();
-            System.out.println("Day of birth (position on list): " + randomDay + ", value = " + dobDay.getOptions().get(randomDay + 1).getText()); // Increment by 1 to adjust printed text value from index
-
-            return this;
-        } else {
-            throw new ElementNotSelectableException("Unable to select.");
+    public RegisterAccountForm selectRandomDayOfBirth() {
+        int randDay = new Random().nextInt((getDriver().findElements(dobDaysList)).size());
+        if(randDay == 0) {
+            randDay++;
         }
-    }
-
-    public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
-
-        dobMonth = new Select(getDriver().findElement(By.id("months")));
-        List<WebElement> selectMonth = getDriver().findElements(
-                By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']"));
-        int maxMonths = selectMonth.size();
-        if (maxMonths > 0) {
-            dobMonth.selectByIndex(monthOfBirth);
-
-            return this;
-        } else {
-            throw new ElementNotSelectableException("Unable to select.");
-        }
-
-    }
-
-    public RegisterAccountForm selectRandomMonthOfBirth(){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("months"));
-
-        dobMonth = new Select(getDriver().findElement(By.id("months")));
-        List<WebElement> selectMonth = getDriver().findElements(
-                By.xpath("//SELECT[@id='months']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
-        int maxMonths = selectMonth.size();
-        if (maxMonths > 0) {
-            Random randMonth = new Random();
-            int randomMonth = randMonth.nextInt(maxMonths);
-            selectMonth.get(randomMonth).click();
-            System.out.println("Month of birth (position on list): " + randomMonth + ", value = " + dobMonth.getOptions().get(randomMonth + 1).getText()); // Increment by 1 to adjust printed text value from index
-
-            return this;
-        } else {
-            throw new ElementNotSelectableException("Unable to select.");
-        }
-
-    }
-
-    public RegisterAccountForm selectYearOfBirth(int yearOfBirth){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
-
-        dobYear = new Select(getDriver().findElement(By.id("years")));
-        List<WebElement> selectYear = getDriver().findElements(
-                By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']"));
-        int maxYears = selectYear.size();
-        dobYear.selectByIndex(yearOfBirth);
+        selectDayOfBirth(randDay);
 
         return this;
     }
 
-    public RegisterAccountForm selectRandomYearOfBirth(){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("years"));
+    public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
+        WaitWrapper.waitFluentlyForElement(getDriver(), months);
 
-        dobYear = new Select(getDriver().findElement(By.id("years")));
-        List<WebElement> selectYear = getDriver().findElements(
-                By.xpath("//SELECT[@id='years']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
-        int maxYears = selectYear.size();
-        if (maxYears > 0) {
-            Random randYear = new Random();
-            int randomYear = randYear.nextInt(maxYears);
-            selectYear.get(randomYear).click();
-            System.out.println("Year of birth (position on list): " + randomYear + ", value = " + dobYear.getOptions().get(randomYear + 1).getText()); // Increment by 1 to adjust printed text value from index
+        dobMonth = new Select(getDriver().findElement(months));
+        List<WebElement> selectMonth = getDriver().findElements(dobMonthList);
+        if (selectMonth.size() > 0) {
+            dobMonth.selectByIndex(monthOfBirth);
+            System.out.println("Month of birth (position on list): " + monthOfBirth + ", value = " + dobMonth.getOptions().get(monthOfBirth).getText());
 
             return this;
         } else {
             throw new ElementNotSelectableException("Unable to select.");
         }
 
+    }
+
+    public RegisterAccountForm selectRandomMonthOfBirth(){
+        int randMonth = new Random().nextInt((getDriver().findElements(dobMonthList)).size());
+        if(randMonth == 0) {
+            randMonth++;
+        }
+        selectMonthOfBirth(randMonth);
+
+        return this;
+    }
+
+    public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
+        WaitWrapper.waitFluentlyForElement(getDriver(), years);
+
+        dobYear = new Select(getDriver().findElement(years));
+        List<WebElement> selectYear = getDriver().findElements(dobYearList);
+        if (selectYear.size() > 0) {
+            dobYear.selectByIndex(yearOfBirth);
+            System.out.println("Years of birth (position on list): " + yearOfBirth + ", value = " + dobYear.getOptions().get(yearOfBirth).getText());
+
+            return this;
+        } else {
+            throw new ElementNotSelectableException("Unable to select.");
+        }
+    }
+
+    public RegisterAccountForm selectRandomYearOfBirth(){
+        int randYear = new Random().nextInt((getDriver().findElements(dobYearList)).size());
+        if(randYear == 0) {
+            randYear++;
+        }
+        selectYearOfBirth(randYear);
+
+        return this;
     }
 
     public RegisterAccountForm setAdditionalInformation(String additionalInfo){
@@ -436,15 +413,14 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm selectState(int aState){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
+    public RegisterAccountForm selectState(int aState){
+        WaitWrapper.waitFluentlyForElement(getDriver(), state);
 
-        state = new Select(getDriver().findElement(By.id("id_state")));
-        List<WebElement> selectState = getDriver().findElements(
-                By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']"));
-        int maxStates = selectState.size();
-        if(maxStates > 0) {
-            state.selectByIndex(aState);
+        stateSelect = new Select(getDriver().findElement(state));
+        List<WebElement> selectState = getDriver().findElements(stateList);
+        if(selectState.size() > 0) {
+            stateSelect.selectByIndex(aState);
+            System.out.println("State (position on list): " + aState + ", value = " + stateSelect.getOptions().get(aState).getText());
 
             return this;
         } else {
@@ -453,24 +429,14 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectRandomState(){ // todo refactor
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_state"));
-
-        state = new Select(getDriver().findElement(By.id("id_state")));
-        List<WebElement> selectState = getDriver().findElements(
-                By.xpath("//SELECT[@id='id_state']/self::SELECT/option[@value>'0']")); // Index 0 (value "-" excluded)
-        int maxStates = selectState.size();
-        if(maxStates > 0) {
-            Random randState = new Random();
-            int randomState = randState.nextInt(maxStates);
-            selectState.get(randomState).click();
-
-            System.out.println("State (position on list): " + randomState + ", value = " + state.getOptions().get(randomState + 1).getText()); // Increment by 1 to adjust printed text value from index
-            return this;
-        } else {
-            throw new ElementNotSelectableException("Unable to select.");
+    public RegisterAccountForm selectRandomState(){
+        int randState = new Random().nextInt((getDriver().findElements(stateList)).size());
+        if(randState == 0) {
+            randState++;
         }
+        selectState(randState);
 
+        return this;
     }
 
     public RegisterAccountForm setPostcode(CharSequence aPostcode){
@@ -493,16 +459,17 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public RegisterAccountForm selectCountry(int aCountry){ // todo refactor
-        // The United States value is automatically selected by default
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
+    public RegisterAccountForm selectCountry(int aCountry){
+        /* The United States value is automatically selected by default, and is the only option available. With the
+        * current implementation, this method will still work when the list expands in the future. */
 
-        country = new Select(getDriver().findElement(By.id("id_country")));
-        List<WebElement> selectCountry = getDriver().findElements(
-                By.xpath("//SELECT[@id='id_country']/self::SELECT/option[@value>'0']"));
-        int maxCountry = selectCountry.size();
-        if(maxCountry > 0) {
-            country.selectByIndex(aCountry);
+        WaitWrapper.waitFluentlyForElement(getDriver(), country);
+
+        countrySelect = new Select(getDriver().findElement(country));
+        List<WebElement> selectCountry = getDriver().findElements(countryList);
+        if(selectCountry.size() > 0) {
+            countrySelect.selectByIndex(aCountry);
+            System.out.println("Country (position on list): " + aCountry + ", value = " + countrySelect.getOptions().get(aCountry).getText());
 
             return this;
         } else {
@@ -511,24 +478,16 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     }
 
-    public RegisterAccountForm selectRandomCountry(){ // todo refactor
-        // The United States value is automatically selected by default
-        WaitWrapper.waitFluentlyForElement(getDriver(), By.id("id_country"));
-
-        country = new Select(getDriver().findElement(By.id("id_country")));
-        List<WebElement> selectCountry = getDriver().findElements(
-                By.xpath("//SELECT[@id='id_country']/self::SELECT/option[@value>'0']"));
-        int maxCountry = selectCountry.size();
-        if(maxCountry > 0) {
-            Random randCountry = new Random();
-            int randomCountry = randCountry.nextInt(maxCountry);
-            selectCountry.get(randomCountry).click();
-            System.out.println("Country: " + randomCountry);
-
-            return this;
-        } else {
-            throw new ElementNotSelectableException("Unable to select.");
+    public RegisterAccountForm selectRandomCountry(){
+        /* The United States value is automatically selected by default, and is the only option available. With the
+         * current implementation, this method will still work when the list expands in the future. */
+        int randCountry = new Random().nextInt((getDriver().findElements(countryList)).size());
+        if(randCountry == 0) {
+            randCountry++;
         }
+        selectCountry(randCountry);
+
+        return this;
 
     }
 
@@ -557,11 +516,11 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setMobilePhoneNumber(CharSequence mobilePhoneNumber){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phone_mobile);
+        WaitWrapper.waitForElement(getDriver(), phoneMobile);
 
-        phone_mobile.isEnabled();
-        phone_mobile.clear();
-        phone_mobile.sendKeys(mobilePhoneNumber);
+        phoneMobile.isEnabled();
+        phoneMobile.clear();
+        phoneMobile.sendKeys(mobilePhoneNumber);
         System.out.println("Mobile phone number: " + mobilePhoneNumber);
 
         return this;
