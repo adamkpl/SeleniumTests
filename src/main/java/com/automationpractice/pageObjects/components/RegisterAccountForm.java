@@ -108,10 +108,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomEmailAddress(){
-        String randomEmailAddress = emails().supplier().get();
-        setEmailAddress(randomEmailAddress);
-
-        return this;
+        return setEmailAddress(emails().supplier().get());
     }
 
     public RegisterAccountForm clickCreateAccountButton(){
@@ -124,7 +121,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     /* Gender radio buttons make the test flaky due to the fact that they load with a delay.
-    * In order to address this issue a temporary workaround has been implemented with retryWaitForElement(). */
+    * In order to address this issue a workaround has been implemented with retryWaitForElement(). */
 
     public RegisterAccountForm setGenderMale(){
         if (retryWaitForElement(getDriver(), By.id("id_gender1"), 2, 1)) {
@@ -147,11 +144,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomGender(){
-        Random random = new Random();
-        String[] gender = {"gender_male","gender_female"};
-        int randomGender = random.nextInt(gender.length);
-
-        if (randomGender == 0) {
+        if ((new Random().nextInt(new WebElement[] {genderMale, genderFemale}.length) == 0)) {
             setGenderMale();
         } else {
             setGenderFemale();
@@ -184,28 +177,22 @@ public class RegisterAccountForm extends AbstractPageObject {
 
     public RegisterAccountForm setRandomFirstName(){
         /* Could be aligned with results of setRandomGender().
-        Female (0) or Male (1). */
+        Male (0) or Female (1). */
         String aFirstName;
-        Random random = new Random();
-        int selectGender = random.nextInt(2);
-
-        if (selectGender == 0) {
-            aFirstName = names().firstAndFemale().get();
-        } else {
+        if ((new Random().nextInt(new WebElement[] {genderMale, genderFemale}.length) == 0)) {
             aFirstName = names().firstAndMale().get();
+        } else {
+            aFirstName = names().firstAndFemale().get();
         }
-        setFirstName(aFirstName);
 
-        return this;
+        return setFirstName(aFirstName);
     }
 
     public RegisterAccountForm setRandomLastName(){
         /* Could be aligned it with the results of setRandomGender() & setRandomFirstName() ONLY if name
         inflexion is applied. E.g in Polish language the last name would not be Kowalski but Kowalska. */
-        String aLastName = names().last().get();
-        setLastName(aLastName);
 
-        return this;
+        return setLastName(names().last().get());
     }
 
     public RegisterAccountForm setPassword(String aPassword){
@@ -220,10 +207,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomPassword(){
-        String aPassword = passwords().type(MEDIUM).get();
-        setPassword(aPassword);
-
-        return this;
+        return setPassword(passwords().type(MEDIUM).get());
     }
 
     public RegisterAccountForm checkNewsletter(){
@@ -232,6 +216,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         newsletter.isEnabled();
         if (!newsletter.isSelected()) {
             newsletter.click();
+            newsletter.isSelected();
         }
 
         return this;
@@ -243,6 +228,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         newsletterSpecialOffers.isEnabled();
         if (!newsletterSpecialOffers.isSelected()) {
             newsletterSpecialOffers.click();
+            newsletterSpecialOffers.isSelected();
         }
 
         return this;
@@ -255,7 +241,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         List<WebElement> selectDay = getDriver().findElements(dobDaysList);
         if (selectDay.size() > 0) {
             dobDay.selectByIndex(dayOfBirth);
-            System.out.println("Day of birth (position on list): " + dayOfBirth + ", value = " + dobDay.getOptions().get(dayOfBirth).getText());
+            System.out.println("Day of birth (position on list): " + dayOfBirth + ", value = "
+                    + dobDay.getOptions().get(dayOfBirth).getText());
 
             return this;
         } else {
@@ -268,9 +255,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         if(randDay == 0) {
             randDay++;
         }
-        selectDayOfBirth(randDay);
 
-        return this;
+        return selectDayOfBirth(randDay);
     }
 
     public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
@@ -280,13 +266,13 @@ public class RegisterAccountForm extends AbstractPageObject {
         List<WebElement> selectMonth = getDriver().findElements(dobMonthList);
         if (selectMonth.size() > 0) {
             dobMonth.selectByIndex(monthOfBirth);
-            System.out.println("Month of birth (position on list): " + monthOfBirth + ", value = " + dobMonth.getOptions().get(monthOfBirth).getText());
+            System.out.println("Month of birth (position on list): " + monthOfBirth + ", value = "
+                    + dobMonth.getOptions().get(monthOfBirth).getText());
 
             return this;
         } else {
             throw new ElementNotSelectableException("Unable to select.");
         }
-
     }
 
     public RegisterAccountForm selectRandomMonthOfBirth(){
@@ -294,9 +280,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         if(randMonth == 0) {
             randMonth++;
         }
-        selectMonthOfBirth(randMonth);
 
-        return this;
+        return selectMonthOfBirth(randMonth);
     }
 
     public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
@@ -306,7 +291,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         List<WebElement> selectYear = getDriver().findElements(dobYearList);
         if (selectYear.size() > 0) {
             dobYear.selectByIndex(yearOfBirth);
-            System.out.println("Years of birth (position on list): " + yearOfBirth + ", value = " + dobYear.getOptions().get(yearOfBirth).getText());
+            System.out.println("Years of birth (position on list): " + yearOfBirth + ", value = "
+                    + dobYear.getOptions().get(yearOfBirth).getText());
 
             return this;
         } else {
@@ -319,9 +305,8 @@ public class RegisterAccountForm extends AbstractPageObject {
         if(randYear == 0) {
             randYear++;
         }
-        selectYearOfBirth(randYear);
 
-        return this;
+        return selectYearOfBirth(randYear);
     }
 
     public RegisterAccountForm setAdditionalInformation(String additionalInfo){
@@ -336,10 +321,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomAdditionalInformation(){
-        String randWord = words().nouns().get();
-        setAdditionalInformation(randWord);
-
-        return this;
+        return setAdditionalInformation(words().nouns().get());
     }
 
     public RegisterAccountForm setAddress(String aAddress){
@@ -372,9 +354,7 @@ public class RegisterAccountForm extends AbstractPageObject {
                         .mapToString())
                 .param("nr", ints().range(1, 600));
 
-        setAddress(randomAddress.accumulate(1, "\n").get());
-
-        return this;
+        return setAddress(randomAddress.accumulate(1, "\n").get());
     }
 
     public RegisterAccountForm setCompany(String aCompany){
@@ -389,10 +369,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomCompany(){
-        String companyName = words().nouns().get();
-        setCompany(companyName);
-
-        return this;
+        return setCompany(words().nouns().get());
     }
 
     public RegisterAccountForm setCity(String aCity){
@@ -407,10 +384,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomCity(){
-        String aCity = cities().capitals().get();
-        setCity(aCity);
-
-        return this;
+        return setCity(cities().capitals().get());
     }
 
     public RegisterAccountForm selectState(int aState){
@@ -420,13 +394,13 @@ public class RegisterAccountForm extends AbstractPageObject {
         List<WebElement> selectState = getDriver().findElements(stateList);
         if(selectState.size() > 0) {
             stateSelect.selectByIndex(aState);
-            System.out.println("State (position on list): " + aState + ", value = " + stateSelect.getOptions().get(aState).getText());
+            System.out.println("State (position on list): " + aState + ", value = "
+                    + stateSelect.getOptions().get(aState).getText());
 
             return this;
         } else {
             throw new ElementNotSelectableException("Unable to select.");
         }
-
     }
 
     public RegisterAccountForm selectRandomState(){
@@ -434,12 +408,11 @@ public class RegisterAccountForm extends AbstractPageObject {
         if(randState == 0) {
             randState++;
         }
-        selectState(randState);
 
-        return this;
+        return selectState(randState);
     }
 
-    public RegisterAccountForm setPostcode(CharSequence aPostcode){
+    public RegisterAccountForm setPostcode(String aPostcode){
         /* In real life the post codes contain alphanumeric characters, but here
         the form accepts only 5-digit format value e.g 00000. */
         WaitWrapper.waitForElement(getDriver(), postcode);
@@ -453,29 +426,25 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomPostcode(){
-        String aPostcode = ints().range(10000,99999).get().toString();
-        setPostcode(aPostcode);
-
-        return this;
+        return setPostcode(ints().range(10000,99999).get().toString());
     }
 
     public RegisterAccountForm selectCountry(int aCountry){
         /* The United States value is automatically selected by default, and is the only option available. With the
         * current implementation, this method will still work when the list expands in the future. */
-
         WaitWrapper.waitFluentlyForElement(getDriver(), country);
 
         countrySelect = new Select(getDriver().findElement(country));
         List<WebElement> selectCountry = getDriver().findElements(countryList);
         if(selectCountry.size() > 0) {
             countrySelect.selectByIndex(aCountry);
-            System.out.println("Country (position on list): " + aCountry + ", value = " + countrySelect.getOptions().get(aCountry).getText());
+            System.out.println("Country (position on list): " + aCountry + ", value = "
+                    + countrySelect.getOptions().get(aCountry).getText());
 
             return this;
         } else {
             throw new ElementNotSelectableException("Unable to select.");
         }
-
     }
 
     public RegisterAccountForm selectRandomCountry(){
@@ -485,13 +454,11 @@ public class RegisterAccountForm extends AbstractPageObject {
         if(randCountry == 0) {
             randCountry++;
         }
-        selectCountry(randCountry);
 
-        return this;
-
+        return selectCountry(randCountry);
     }
 
-    public RegisterAccountForm setPhoneNumber(CharSequence aPhoneHome){
+    public RegisterAccountForm setPhoneNumber(String aPhoneHome){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
         WaitWrapper.waitForElement(getDriver(), phoneHome);
@@ -507,13 +474,11 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomPhoneNumber(){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        String aPhoneNumber = ints().range(100000000,999999999).get().toString();
-        setPhoneNumber(aPhoneNumber);
 
-        return this;
+        return setPhoneNumber(ints().range(100000000,999999999).get().toString());
     }
 
-    public RegisterAccountForm setMobilePhoneNumber(CharSequence mobilePhoneNumber){
+    public RegisterAccountForm setMobilePhoneNumber(String mobilePhoneNumber){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
         WaitWrapper.waitForElement(getDriver(), phoneMobile);
@@ -529,10 +494,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setRandomMobilePhoneNumber(){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        String aPhoneMobileNumber = ints().range(100000000,999999999).get().toString();
-        setMobilePhoneNumber(aPhoneMobileNumber);
 
-        return this;
+        return setMobilePhoneNumber(ints().range(100000000,999999999).get().toString());
     }
 
     public RegisterAccountForm setAddressAlias(String aAddressAlias){
@@ -546,10 +509,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomAddressAlias(){
-        String randWord = words().nouns().get();
-        setAddressAlias(randWord);
-
-        return this;
+        return setAddressAlias(words().nouns().get());
     }
 
     public RegisterAccountForm clickRegisterButton(){
