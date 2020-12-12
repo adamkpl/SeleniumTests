@@ -19,6 +19,7 @@
 
     <build>
         <plugins>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -31,6 +32,7 @@
         </plugins>
     </build>
 
+    <!-- https://mvnrepository.com/artifact/net.andreinc.mockneat/mockneat -->
     <repositories>
         <repository>
             <id>jcenter</id>
@@ -39,21 +41,25 @@
     </repositories>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${org.seleniumhq.selenium.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${io.github.bonigarcia.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.andreinc.mockneat/mockneat -->
         <dependency>
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
             <version>${net.andreinc.mockneat.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
