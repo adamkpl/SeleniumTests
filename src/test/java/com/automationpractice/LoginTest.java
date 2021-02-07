@@ -6,13 +6,7 @@ import com.automationpractice.pageObjects.pages.MyAccount;
 import com.automationpractice.pageObjects.testdata.TestData;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
 import com.automationpractice.pageObjects.utils.Url;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -24,33 +18,11 @@ import static org.junit.Assert.assertNotEquals;
  * @author Adam K.
  */
 
-public class LoginTest {
+public class LoginTest extends BaseTestCase {
 
-    private static WebDriver driver;
-
-    MainPage mainPage = new MainPage(driver);
-    AccountSignInPage accountSignInPage = new AccountSignInPage(driver);
-    MyAccount myAccount = new MyAccount(driver);
-
-    @BeforeClass
-    public static void setupClass() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-    }
-
-    @Before
-    public void setupTest() {
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-    }
-
-    @AfterClass
-    public static void teardown() {
-        if (driver != null) {
-            driver.close();
-            driver.quit();
-        }
-    }
+    MainPage mainPage = new MainPage(getDriver());
+    AccountSignInPage accountSignInPage = new AccountSignInPage(getDriver());
+    MyAccount myAccount = new MyAccount(getDriver());
 
     @Test
     public void shouldLoginToAccount() {
@@ -71,7 +43,7 @@ public class LoginTest {
         myAccount
                 .getWelcomeMessage();
                 takeScreenshotLoginSuccess();
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertEquals("URL = myAccount", Url.MY_ACCOUNT, getDriver().getCurrentUrl());
 
     }
 
@@ -94,16 +66,16 @@ public class LoginTest {
         myAccount
                 .getAuthErrorMessage();
                 takeScreenshotLoginFail();
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, getDriver().getCurrentUrl());
 
     }
 
     private void takeScreenshotLoginSuccess() {
-        TakeScreenshotWrapper.takeScreenshot(driver,"LoginSuccess.png");
+        TakeScreenshotWrapper.takeScreenshot(getDriver(),"LoginSuccess.png");
     }
 
     private void takeScreenshotLoginFail() {
-        TakeScreenshotWrapper.takeScreenshot(driver,"LoginFail.png");
+        TakeScreenshotWrapper.takeScreenshot(getDriver(),"LoginFail.png");
     }
 
 }
