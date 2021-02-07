@@ -3,6 +3,7 @@ package com.automationpractice;
 import com.automationpractice.pageObjects.pages.AccountSignInPage;
 import com.automationpractice.pageObjects.pages.MainPage;
 import com.automationpractice.pageObjects.pages.MyAccount;
+import com.automationpractice.pageObjects.testdata.TestData;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
 import com.automationpractice.pageObjects.utils.Url;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -62,8 +63,8 @@ public class LoginTest {
         // When
         accountSignInPage
                 .loginToAccount()
-                    .withUsername("automationpractice@yopmail.com")
-                    .withPassword("UnknownP@zzw0rd!")
+                    .withUsername(TestData.ACCT_EMAIL)
+                    .withPassword(TestData.ACCT_PASSWORD_VALID)
                 .clickSignInButton();
 
         // Then
@@ -85,8 +86,8 @@ public class LoginTest {
         // When
         accountSignInPage
                 .loginToAccount()
-                    .withUsername("automationpractice@yopmail.com")
-                    .withPassword("ThisPasswordIsInvalid")
+                    .withUsername(TestData.ACCT_EMAIL)
+                    .withPassword(TestData.ACCT_PASSWORD_INVALID)
                 .clickSignInButton();
 
         // Then
