@@ -7,13 +7,9 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class BaseTestCase {
+public abstract class BaseTestCase {
 
-    private static WebDriver driver;
-
-    public static WebDriver getDriver() {
-        return driver;
-    }
+    protected static WebDriver driver;
 
     @BeforeClass
     public static void setupClass() {
