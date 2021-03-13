@@ -17,16 +17,16 @@ public class MyAccount extends AbstractPageObject {
         super(driver);
     }
 
-    public WebElement getWelcomeMessage(){
+    public Boolean isWelcomeMessageDisplayed(){
         WaitWrapper.waitForElement(driver, welcomeMessage);
-        System.out.println("Success! Welcome to your account :-)");
-        return welcomeMessage;
+        //System.out.println("Login successful.");
+        return welcomeMessage.isDisplayed();
     }
 
-    public WebElement getAuthErrorMessage(){
+    public Boolean isAuthorizationErrorMessageDisplayed(){
         WaitWrapper.waitForElement(driver, authErrorMessage);
-        System.out.println("Error! Authentication failed :-(");
-        return authErrorMessage;
+        //System.out.println("Login failed.");
+        return authErrorMessage.isDisplayed();
     }
 
     public String getMyAccountUrl() {

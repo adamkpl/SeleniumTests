@@ -5,18 +5,9 @@ import com.automationpractice.pageObjects.pages.MainPage;
 import com.automationpractice.pageObjects.pages.MyAccount;
 import com.automationpractice.pageObjects.testdata.TestData;
 import com.automationpractice.pageObjects.utils.TakeScreenshotWrapper;
-import com.automationpractice.pageObjects.utils.Url;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
-/**
- * Create an account
- * Page Object Pattern with "Fluent API"
- * @since 2020-02-07
- * @author Adam K.
- */
+import static org.junit.Assert.assertTrue;
 
 public class CreateAccountTest extends BaseTestCase {
 
@@ -50,10 +41,8 @@ public class CreateAccountTest extends BaseTestCase {
                     .clickRegisterButton();
 
         // Then
-        myAccount
-                .getWelcomeMessage();
-                TakeScreenshotWrapper.takeScreenshot(driver, "RegisterAccountMinimum_Success.png");
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
+        TakeScreenshotWrapper.takeScreenshot(driver, "shouldRegisterAccountWithRequiredFieldsFilledOnlyWithValidInputData.png");
+        assertTrue(myAccount.isWelcomeMessageDisplayed());
     }
 
     @Test
@@ -91,10 +80,8 @@ public class CreateAccountTest extends BaseTestCase {
                     .clickRegisterButton();
 
         // Then
-        myAccount
-                .getWelcomeMessage();
-                TakeScreenshotWrapper.takeScreenshot(driver, "RegisterAccountMaximum_Success.png");
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
+        TakeScreenshotWrapper.takeScreenshot(driver, "shouldRegisterAccountWithAllFieldsFilledWithValidInputData.png");
+        assertTrue(myAccount.isWelcomeMessageDisplayed());
     }
 
     @Test
@@ -108,14 +95,12 @@ public class CreateAccountTest extends BaseTestCase {
         // When
         accountSignInPage
                 .createAnAccount()
-                .setEmailAddress(TestData.ACCT_EMAIL)
-                .clickCreateAccountButton();
+                    .setEmailAddress(TestData.ACCT_EMAIL)
+                    .clickCreateAccountButton();
 
         // Then
-        myAccount
-                .getAuthErrorMessage();
-                TakeScreenshotWrapper.takeScreenshot(driver, "CreateAccountFailAnExistingAccount.png");
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
+        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotRegisterAccountForAnExistingAccount.png");
+        assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 
 
@@ -130,14 +115,12 @@ public class CreateAccountTest extends BaseTestCase {
         // When
         accountSignInPage
                 .createAnAccount()
-                .setEmailAddress(TestData.ACCT_EMAIL_INVALID)
-                .clickCreateAccountButton();
+                    .setEmailAddress(TestData.ACCT_EMAIL_INVALID)
+                    .clickCreateAccountButton();
 
         // Then
-        myAccount
-                .getAuthErrorMessage();
-                TakeScreenshotWrapper.takeScreenshot(driver, "CreateAccountFailInvalidEmailAddress.png");
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
+        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotRegisterAccountForAnInvalidEmailAddress.png");
+        assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 
 }
