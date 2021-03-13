@@ -13,3 +13,4 @@ target/
 
 # Test Outputs
 testOutputs
+log4j_log.out
