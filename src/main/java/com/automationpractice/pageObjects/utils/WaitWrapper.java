@@ -22,22 +22,23 @@ import java.util.function.Function;
 
 public class WaitWrapper {
 
-    public static void waitForElement(WebDriver driver, long timeoutInSeconds, WebElement element){
+    public static void waitForElement(WebDriver driver, long timeoutInSeconds, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitForElement(WebDriver driver, WebElement element){
+    public static void waitForElement(WebDriver driver, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitForElementToBeClickable(WebDriver driver, WebElement element){
+    public static void waitForElementToBeClickable(WebDriver driver, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
-    public static void waitForElementToBeClickable(WebDriver driver, long timeoutInSeconds, WebElement element){
+
+    public static void waitForElementToBeClickable(WebDriver driver, long timeoutInSeconds, WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
         wait.until(ExpectedConditions.elementToBeClickable(element));

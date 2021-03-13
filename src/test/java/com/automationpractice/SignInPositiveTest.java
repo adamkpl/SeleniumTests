@@ -13,7 +13,6 @@ public class SignInPositiveTest extends BaseTestCase {
     AccountSignInPage accountSignInPage = new AccountSignInPage(driver);
     MyAccount myAccount = new MyAccount(driver);
 
-
     @Test
     public void shouldSignInToAccount() {
         // Given

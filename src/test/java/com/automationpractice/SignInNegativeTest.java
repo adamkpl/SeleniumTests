@@ -19,17 +19,17 @@ public class SignInNegativeTest extends BaseTestCase {
     MyAccount myAccount = new MyAccount(driver);
 
     // Parameters
-    private String login;
+    private String username;
     private String password;
 
     // Constructor is initialized with one set of parameters every time
-    public SignInNegativeTest(String login, String password) {
-        this.login = login;
+    public SignInNegativeTest(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
     // @Parameters annotation marks this method as parameters provider
-    @Parameterized.Parameters(name = "{index}: email: {0}, password: {1}")
+    @Parameterized.Parameters(name = "{index}: username: {0}, password: {1}")
     public static Iterable<Object[]> testData() {
         return Arrays.asList(new Object[][]{
                 {TestData.ACCT_EMAIL_INVALID, TestData.ACCT_PASSWORD_INVALID}
@@ -49,12 +49,12 @@ public class SignInNegativeTest extends BaseTestCase {
 
         // When
                 .loginToAccount()
-                    .withUsername(login)
+                    .withUsername(username)
                     .withPassword(password)
                 .clickSignInButton();
 
         // Then
-        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotSignInToAccount_" + login + "_" + password + ".png");
+        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotSignInToAccount_" + username + "_" + password + ".png");
         assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 

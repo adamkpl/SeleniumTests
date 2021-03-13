@@ -103,7 +103,6 @@ public class CreateAccountTest extends BaseTestCase {
         assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 
-
     @Test
     public void shouldNotRegisterAccountForAnInvalidEmailAddress() {
         // Given
