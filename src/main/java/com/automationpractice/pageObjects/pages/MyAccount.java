@@ -1,6 +1,7 @@
 package com.automationpractice.pageObjects.pages;
 
 import com.automationpractice.pageObjects.utils.WaitWrapper;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,19 +18,24 @@ public class MyAccount extends AbstractPageObject {
         super(driver);
     }
 
-    public Boolean isWelcomeMessageDisplayed(){
+    Logger logger = Logger.getLogger(MyAccount.class);
+
+    public Boolean isWelcomeMessageDisplayed() {
         WaitWrapper.waitForElement(driver, welcomeMessage);
+        logger.info("My Account welcome page opened.");
         //System.out.println("Login successful.");
         return welcomeMessage.isDisplayed();
     }
 
-    public Boolean isAuthorizationErrorMessageDisplayed(){
+    public Boolean isAuthorizationErrorMessageDisplayed() {
         WaitWrapper.waitForElement(driver, authErrorMessage);
+        logger.warn("Error! Authentication failed.");
         //System.out.println("Login failed.");
         return authErrorMessage.isDisplayed();
     }
 
     public String getMyAccountUrl() {
+        logger.trace("Retrieving current URL: " + driver.getCurrentUrl());
         return driver.getCurrentUrl();
     }
 
