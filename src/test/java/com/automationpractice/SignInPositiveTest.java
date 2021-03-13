@@ -26,7 +26,7 @@ public class SignInPositiveTest extends BaseTestCase {
                 .clickSignInButton();
 
         // Then
-        TakeScreenshotWrapper.takeScreenshot(driver, "shouldSignInToAccount.png");
+        //TakeScreenshotWrapper.takeScreenshot(driver, "shouldSignInToAccount.png");
         assertTrue(myAccount.isWelcomeMessageDisplayed());
     }
 

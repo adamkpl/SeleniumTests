@@ -54,7 +54,7 @@ public class SignInNegativeTest extends BaseTestCase {
                 .clickSignInButton();
 
         // Then
-        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotSignInToAccount_" + username + "_" + password + ".png");
+        //TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotSignInToAccount_" + username + "_" + password + ".png");
         assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 

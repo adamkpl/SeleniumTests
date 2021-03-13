@@ -49,7 +49,7 @@ public class CreateAccountNegativeTest extends BaseTestCase {
                 .clickCreateAccountButton();
 
         // Then
-        TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotRegisterAccount_" + username + "_.png");
+        //TakeScreenshotWrapper.takeScreenshot(driver, "shouldNotRegisterAccount_" + username + "_.png");
         assertTrue(myAccount.isAuthorizationErrorMessageDisplayed());
     }
 
