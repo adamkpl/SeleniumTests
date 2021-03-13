@@ -12,6 +12,9 @@ public class NavigationBar extends AbstractPageObject {
     @FindBy(partialLinkText = "Sign in")
     private WebElement signInLink;
 
+    @FindBy(css = ".header_user_info > a")
+    private WebElement username;
+
     public NavigationBar(WebDriver driver){
         super(driver);
     }

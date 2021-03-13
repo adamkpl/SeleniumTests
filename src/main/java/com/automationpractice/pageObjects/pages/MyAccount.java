@@ -7,10 +7,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class MyAccount extends AbstractPageObject {
 
-    @FindBy(xpath = "//*[contains(text(),'Welcome to your account')]")
+    @FindBy(css = ".info-account")
     private WebElement welcomeMessage;
 
-    @FindBy(xpath = "//div[@class='alert alert-danger'][contains(.,'Authentication failed.')]")
+    @FindBy(css = ".alert")
     private WebElement authErrorMessage;
 
     public MyAccount(WebDriver driver) {
