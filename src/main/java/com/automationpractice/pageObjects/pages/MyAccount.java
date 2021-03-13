@@ -29,4 +29,8 @@ public class MyAccount extends AbstractPageObject {
         return authErrorMessage;
     }
 
+    public String getMyAccountUrl() {
+        return driver.getCurrentUrl();
+    }
+
 }

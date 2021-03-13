@@ -53,7 +53,7 @@ public class CreateAccountTest extends BaseTestCase {
         myAccount
                 .getWelcomeMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "RegisterAccountMinimum_Success.png");
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertEquals("URL = myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class CreateAccountTest extends BaseTestCase {
         myAccount
                 .getWelcomeMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "RegisterAccountMaximum_Success.png");
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertEquals("URL = myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class CreateAccountTest extends BaseTestCase {
         myAccount
                 .getAuthErrorMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "CreateAccountFailAnExistingAccount.png");
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
 
@@ -137,7 +137,7 @@ public class CreateAccountTest extends BaseTestCase {
         myAccount
                 .getAuthErrorMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "CreateAccountFailInvalidEmailAddress.png");
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
 }

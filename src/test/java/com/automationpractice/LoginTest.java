@@ -43,7 +43,7 @@ public class LoginTest extends BaseTestCase {
         myAccount
                 .getWelcomeMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "LoginSuccess.png");
-                assertEquals("URL = myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertEquals("URL = myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class LoginTest extends BaseTestCase {
         myAccount
                 .getAuthErrorMessage();
                 TakeScreenshotWrapper.takeScreenshot(driver, "LoginFailInvalidPwd.png");
-                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, driver.getCurrentUrl());
+                assertNotEquals("URL != myAccount", Url.MY_ACCOUNT, myAccount.getMyAccountUrl());
     }
 
 }
