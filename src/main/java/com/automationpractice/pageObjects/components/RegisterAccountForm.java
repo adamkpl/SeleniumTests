@@ -17,9 +17,11 @@ import java.util.Random;
 import static com.automationpractice.pageObjects.utils.WaitWrapper.retryWaitForElement;
 import static net.andreinc.mockneat.types.enums.PassStrengthType.MEDIUM;
 import static net.andreinc.mockneat.types.enums.StringFormatType.CAPITALIZED;
+import static net.andreinc.mockneat.types.enums.StringType.ALPHA_NUMERIC;
 import static net.andreinc.mockneat.unit.address.Cities.cities;
 import static net.andreinc.mockneat.unit.objects.Probabilities.probabilities;
 import static net.andreinc.mockneat.unit.text.Formatter.fmt;
+import static net.andreinc.mockneat.unit.text.Strings.strings;
 import static net.andreinc.mockneat.unit.text.Words.words;
 import static net.andreinc.mockneat.unit.types.Ints.ints;
 import static net.andreinc.mockneat.unit.user.Emails.emails;
@@ -108,7 +110,8 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setRandomEmailAddress(){
-        return setEmailAddress(emails().supplier().get());
+        return setEmailAddress(strings().size(15).type(ALPHA_NUMERIC).get().toLowerCase() + "@"
+                + strings().size(5).type(ALPHA_NUMERIC).get().toLowerCase() + new Random().nextInt(99999) + ".pl");
     }
 
     public RegisterAccountForm clickCreateAccountButton(){
