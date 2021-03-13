@@ -21,19 +21,19 @@ public class LoginToAccountForm extends AbstractPageObject {
     }
 
     public LoginToAccountForm withUsername(String username){
-        WaitWrapper.waitForElement(getDriver(), loginField);
+        WaitWrapper.waitForElement(driver, loginField);
         loginField.sendKeys(username);
         return this;
     }
 
     public LoginToAccountForm withPassword(String password){
-        WaitWrapper.waitForElement(getDriver(), passwordField);
+        WaitWrapper.waitForElement(driver, passwordField);
         passwordField.sendKeys(password);
         return this;
     }
 
     public LoginToAccountForm clickSignInButton(){
-        WaitWrapper.waitForElement(getDriver(), signInButton);
+        WaitWrapper.waitForElement(driver, signInButton);
         signInButton.click();
         return this;
     }

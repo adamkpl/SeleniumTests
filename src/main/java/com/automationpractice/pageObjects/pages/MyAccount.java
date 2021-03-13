@@ -18,13 +18,13 @@ public class MyAccount extends AbstractPageObject {
     }
 
     public WebElement getWelcomeMessage(){
-        WaitWrapper.waitForElement(getDriver(), welcomeMessage);
+        WaitWrapper.waitForElement(driver, welcomeMessage);
         System.out.println("Success! Welcome to your account :-)");
         return welcomeMessage;
     }
 
     public WebElement getAuthErrorMessage(){
-        WaitWrapper.waitForElement(getDriver(), authErrorMessage);
+        WaitWrapper.waitForElement(driver, authErrorMessage);
         System.out.println("Error! Authentication failed :-(");
         return authErrorMessage;
     }

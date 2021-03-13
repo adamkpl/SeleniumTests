@@ -14,7 +14,7 @@ public class MainPage extends AbstractPageObject {
     }
 
     public MainPage navigateToMainPage(){
-        getDriver().get(Url.HTTP_AUTOMATIONPRACTICE_COM);
+        driver.get(Url.HTTP_AUTOMATIONPRACTICE_COM);
         return this;
     }
 

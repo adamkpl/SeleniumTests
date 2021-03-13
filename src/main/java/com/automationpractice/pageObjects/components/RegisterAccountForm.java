@@ -99,7 +99,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setEmailAddress(String emailAddress){
-        WaitWrapper.waitForElement(getDriver(), emailAddressField);
+        WaitWrapper.waitForElement(driver, emailAddressField);
 
         emailAddressField.isEnabled();
         emailAddressField.clear();
@@ -115,7 +115,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm clickCreateAccountButton(){
-        WaitWrapper.waitForElement(getDriver(), createAccountButton);
+        WaitWrapper.waitForElement(driver, createAccountButton);
 
         createAccountButton.isEnabled();
         createAccountButton.click();
@@ -127,7 +127,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     * In order to address this issue a workaround has been implemented with retryWaitForElement(). */
 
     public RegisterAccountForm setGenderMale(){
-        if (retryWaitForElement(getDriver(), By.id("id_gender1"), 2, 1)) {
+        if (retryWaitForElement(driver, By.id("id_gender1"), 2, 1)) {
             genderMale.click();
             genderMale.isSelected();
             System.out.println("Gender: Male");
@@ -137,7 +137,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setGenderFemale(){
-        if (retryWaitForElement(getDriver(), By.id("id_gender2"), 2, 1)) {
+        if (retryWaitForElement(driver, By.id("id_gender2"), 2, 1)) {
             genderFemale.click();
             genderFemale.isSelected();
             System.out.println("Gender: Female");
@@ -157,7 +157,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setFirstName(String aFirstName){
-        WaitWrapper.waitForElement(getDriver(), firstName);
+        WaitWrapper.waitForElement(driver, firstName);
 
         firstName.isEnabled();
         firstName.clear();
@@ -168,7 +168,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setLastName(String aLastName){
-        WaitWrapper.waitForElement(getDriver(), lastName);
+        WaitWrapper.waitForElement(driver, lastName);
 
         lastName.isEnabled();
         lastName.clear();
@@ -199,7 +199,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setPassword(String aPassword){
-        WaitWrapper.waitForElement(getDriver(), password);
+        WaitWrapper.waitForElement(driver, password);
 
         password.isEnabled();
         password.clear();
@@ -214,7 +214,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm checkNewsletter(){
-        WaitWrapper.waitForElement(getDriver(), newsletter);
+        WaitWrapper.waitForElement(driver, newsletter);
 
         newsletter.isEnabled();
         if (!newsletter.isSelected()) {
@@ -226,7 +226,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm checkSpecialOffers(){
-        WaitWrapper.waitForElement(getDriver(), newsletterSpecialOffers);
+        WaitWrapper.waitForElement(driver, newsletterSpecialOffers);
 
         newsletterSpecialOffers.isEnabled();
         if (!newsletterSpecialOffers.isSelected()) {
@@ -238,10 +238,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectDayOfBirth(int dayOfBirth) {
-        WaitWrapper.waitFluentlyForElement(getDriver(), days);
+        WaitWrapper.waitFluentlyForElement(driver, days);
 
-        dobDay = new Select(getDriver().findElement(days));
-        List<WebElement> selectDay = getDriver().findElements(dobDaysList);
+        dobDay = new Select(driver.findElement(days));
+        List<WebElement> selectDay = driver.findElements(dobDaysList);
         if (selectDay.size() > 0) {
             dobDay.selectByIndex(dayOfBirth);
             System.out.println("Day of birth (position on list): " + dayOfBirth + ", value = "
@@ -254,7 +254,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomDayOfBirth() {
-        int randDay = new Random().nextInt((getDriver().findElements(dobDaysList)).size());
+        int randDay = new Random().nextInt((driver.findElements(dobDaysList)).size());
         if(randDay == 0) {
             randDay++;
         }
@@ -263,10 +263,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectMonthOfBirth(int monthOfBirth){
-        WaitWrapper.waitFluentlyForElement(getDriver(), months);
+        WaitWrapper.waitFluentlyForElement(driver, months);
 
-        dobMonth = new Select(getDriver().findElement(months));
-        List<WebElement> selectMonth = getDriver().findElements(dobMonthList);
+        dobMonth = new Select(driver.findElement(months));
+        List<WebElement> selectMonth = driver.findElements(dobMonthList);
         if (selectMonth.size() > 0) {
             dobMonth.selectByIndex(monthOfBirth);
             System.out.println("Month of birth (position on list): " + monthOfBirth + ", value = "
@@ -279,7 +279,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomMonthOfBirth(){
-        int randMonth = new Random().nextInt((getDriver().findElements(dobMonthList)).size());
+        int randMonth = new Random().nextInt((driver.findElements(dobMonthList)).size());
         if(randMonth == 0) {
             randMonth++;
         }
@@ -288,10 +288,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectYearOfBirth(int yearOfBirth){
-        WaitWrapper.waitFluentlyForElement(getDriver(), years);
+        WaitWrapper.waitFluentlyForElement(driver, years);
 
-        dobYear = new Select(getDriver().findElement(years));
-        List<WebElement> selectYear = getDriver().findElements(dobYearList);
+        dobYear = new Select(driver.findElement(years));
+        List<WebElement> selectYear = driver.findElements(dobYearList);
         if (selectYear.size() > 0) {
             dobYear.selectByIndex(yearOfBirth);
             System.out.println("Years of birth (position on list): " + yearOfBirth + ", value = "
@@ -304,7 +304,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomYearOfBirth(){
-        int randYear = new Random().nextInt((getDriver().findElements(dobYearList)).size());
+        int randYear = new Random().nextInt((driver.findElements(dobYearList)).size());
         if(randYear == 0) {
             randYear++;
         }
@@ -313,7 +313,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setAdditionalInformation(String additionalInfo){
-        WaitWrapper.waitForElement(getDriver(), additionalInformationForm);
+        WaitWrapper.waitForElement(driver, additionalInformationForm);
 
         additionalInformationForm.isEnabled();
         additionalInformationForm.clear();
@@ -328,7 +328,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setAddress(String aAddress){
-        WaitWrapper.waitForElement(getDriver(), address);
+        WaitWrapper.waitForElement(driver, address);
 
         address.isEnabled();
         address.clear();
@@ -361,7 +361,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setCompany(String aCompany){
-        WaitWrapper.waitForElement(getDriver(), company);
+        WaitWrapper.waitForElement(driver, company);
 
         company.isEnabled();
         company.clear();
@@ -376,7 +376,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setCity(String aCity){
-        WaitWrapper.waitForElement(getDriver(), city);
+        WaitWrapper.waitForElement(driver, city);
 
         city.isEnabled();
         city.clear();
@@ -391,10 +391,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectState(int aState){
-        WaitWrapper.waitFluentlyForElement(getDriver(), state);
+        WaitWrapper.waitFluentlyForElement(driver, state);
 
-        stateSelect = new Select(getDriver().findElement(state));
-        List<WebElement> selectState = getDriver().findElements(stateList);
+        stateSelect = new Select(driver.findElement(state));
+        List<WebElement> selectState = driver.findElements(stateList);
         if(selectState.size() > 0) {
             stateSelect.selectByIndex(aState);
             System.out.println("State (position on list): " + aState + ", value = "
@@ -407,7 +407,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm selectRandomState(){
-        int randState = new Random().nextInt((getDriver().findElements(stateList)).size());
+        int randState = new Random().nextInt((driver.findElements(stateList)).size());
         if(randState == 0) {
             randState++;
         }
@@ -418,7 +418,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setPostcode(String aPostcode){
         /* In real life the post codes contain alphanumeric characters, but here
         the form accepts only 5-digit format value e.g 00000. */
-        WaitWrapper.waitForElement(getDriver(), postcode);
+        WaitWrapper.waitForElement(driver, postcode);
 
         postcode.isEnabled();
         postcode.clear();
@@ -435,10 +435,10 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm selectCountry(int aCountry){
         /* The United States value is automatically selected by default, and is the only option available. With the
         * current implementation, this method will still work when the list expands in the future. */
-        WaitWrapper.waitFluentlyForElement(getDriver(), country);
+        WaitWrapper.waitFluentlyForElement(driver, country);
 
-        countrySelect = new Select(getDriver().findElement(country));
-        List<WebElement> selectCountry = getDriver().findElements(countryList);
+        countrySelect = new Select(driver.findElement(country));
+        List<WebElement> selectCountry = driver.findElements(countryList);
         if(selectCountry.size() > 0) {
             countrySelect.selectByIndex(aCountry);
             System.out.println("Country (position on list): " + aCountry + ", value = "
@@ -453,7 +453,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm selectRandomCountry(){
         /* The United States value is automatically selected by default, and is the only option available. With the
          * current implementation, this method will still work when the list expands in the future. */
-        int randCountry = new Random().nextInt((getDriver().findElements(countryList)).size());
+        int randCountry = new Random().nextInt((driver.findElements(countryList)).size());
         if(randCountry == 0) {
             randCountry++;
         }
@@ -464,7 +464,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setPhoneNumber(String aPhoneHome){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phoneHome);
+        WaitWrapper.waitForElement(driver, phoneHome);
 
         phoneHome.isEnabled();
         phoneHome.clear();
@@ -484,7 +484,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     public RegisterAccountForm setMobilePhoneNumber(String mobilePhoneNumber){
         /* On many websites, phone numbers are typed with non-integer characters such as + or - with
         additional prefix numbers, but here we simply generate a 9-digit number. */
-        WaitWrapper.waitForElement(getDriver(), phoneMobile);
+        WaitWrapper.waitForElement(driver, phoneMobile);
 
         phoneMobile.isEnabled();
         phoneMobile.clear();
@@ -502,7 +502,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm setAddressAlias(String aAddressAlias){
-        WaitWrapper.waitForElement(getDriver(), addressAlias);
+        WaitWrapper.waitForElement(driver, addressAlias);
 
         addressAlias.isEnabled();
         addressAlias.clear();
@@ -516,7 +516,7 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public RegisterAccountForm clickRegisterButton(){
-        WaitWrapper.waitForElement(getDriver(),registerButton);
+        WaitWrapper.waitForElement(driver,registerButton);
 
         registerButton.isEnabled();
         registerButton.click();
@@ -525,6 +525,6 @@ public class RegisterAccountForm extends AbstractPageObject {
     }
 
     public AccountSignInPage registerAccount(){
-        return new AccountSignInPage(getDriver());
+        return new AccountSignInPage(driver);
     }
 }
