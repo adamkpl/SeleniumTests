@@ -40,7 +40,7 @@ public class CreateAccountPositiveTest extends BaseTestCase {
                     .clickRegisterButton();
 
         // Then
-        TakeScreenshotWrapper.takeScreenshot(driver, "shouldRegisterAccountWithRequiredFieldsFilledOnlyWithValidInputData.png");
+        //TakeScreenshotWrapper.takeScreenshot(driver, "shouldRegisterAccountWithRequiredFieldsFilledOnlyWithValidInputData.png");
         assertTrue(myAccount.isWelcomeMessageDisplayed());
     }
 
