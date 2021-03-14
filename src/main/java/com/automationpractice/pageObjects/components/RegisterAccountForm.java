@@ -4,7 +4,9 @@ import com.automationpractice.pageObjects.pages.AbstractPageObject;
 import com.automationpractice.pageObjects.pages.AccountSignInPage;
 import com.automationpractice.pageObjects.utils.WaitWrapper;
 import net.andreinc.mockneat.abstraction.MockUnitString;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotSelectableException;
 import org.openqa.selenium.WebDriver;
@@ -99,7 +101,7 @@ public class RegisterAccountForm extends AbstractPageObject {
         super(driver);
     }
 
-    Logger logger = Logger.getLogger(RegisterAccountForm.class);
+    Logger logger = LogManager.getLogger(RegisterAccountForm.class);
 
     public RegisterAccountForm setEmailAddress(String emailAddress) {
         WaitWrapper.waitForElement(driver, emailAddressField);

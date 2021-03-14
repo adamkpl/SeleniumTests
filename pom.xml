@@ -14,7 +14,9 @@
         <io.github.bonigarcia.version>4.3.1</io.github.bonigarcia.version>
         <net.andreinc.mockneat.version>0.3.9</net.andreinc.mockneat.version>
         <junit.version>4.13.2</junit.version>
-        <log4j.version>1.2.17</log4j.version>
+<!--        <log4j.version>1.2.17</log4j.version>-->
+        <log4j2.version>2.14.1</log4j2.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -84,10 +86,29 @@
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-        <dependency>
+<!--        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j2.version}</version>
+            <type>pom</type>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
     </dependencies>
 

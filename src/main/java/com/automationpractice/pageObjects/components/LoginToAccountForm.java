@@ -2,7 +2,9 @@ package com.automationpractice.pageObjects.components;
 
 import com.automationpractice.pageObjects.pages.AbstractPageObject;
 import com.automationpractice.pageObjects.utils.WaitWrapper;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,7 +22,7 @@ public class LoginToAccountForm extends AbstractPageObject {
         super(driver);
     }
 
-    Logger logger = Logger.getLogger(LoginToAccountForm.class);
+    Logger logger = LogManager.getLogger(LoginToAccountForm.class);
 
     public LoginToAccountForm withUsername(String username) {
         WaitWrapper.waitForElement(driver, loginField);

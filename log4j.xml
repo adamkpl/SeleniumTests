@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
-
-<log4j:configuration>
-
-    <appender name="DEBUG" class="org.apache.log4j.ConsoleAppender">
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%-7p %d [%t] %c %x - %m%n"/>
-        </layout>
-    </appender>
-
-    <appender name="FILE" class="org.apache.log4j.FileAppender">
-        <param name="file" value="log4j_log.out"/>
-        <param name="immediateFlush" value="true"/>
-        <param name="append" value="true"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%-7p %d [%t] %c %x - %m%n"/>
-        </layout>
-    </appender>
-
-    <root>
-        <priority value="trace"/>
-        <appender-ref ref="DEBUG"/>
-        <appender-ref ref="FILE"/>
-    </root>
-
-</log4j:configuration>
+<Configuration status="DEBUG">
+    <Appenders>
+        <File name="file" fileName="log4j_log.out">
+            <PatternLayout>
+                <Pattern>%-7p %d [%t] %c %x - %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-7p %d [%t] %c %x - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="file" level="TRACE"/>
+            <AppenderRef ref="STDOUT" level="TRACE"/>
+        </Root>
+    </Loggers>
+</Configuration>

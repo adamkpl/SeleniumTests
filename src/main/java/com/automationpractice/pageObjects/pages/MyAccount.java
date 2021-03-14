@@ -1,7 +1,9 @@
 package com.automationpractice.pageObjects.pages;
 
 import com.automationpractice.pageObjects.utils.WaitWrapper;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,7 +20,7 @@ public class MyAccount extends AbstractPageObject {
         super(driver);
     }
 
-    Logger logger = Logger.getLogger(MyAccount.class);
+    Logger logger = LogManager.getLogger(MyAccount.class);
 
     public Boolean isWelcomeMessageDisplayed() {
         WaitWrapper.waitForElement(driver, welcomeMessage);
