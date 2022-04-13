@@ -3,7 +3,9 @@ package com.automationpractice.pageObjects.pages;
 import com.automationpractice.pageObjects.components.LoginToAccountForm;
 import com.automationpractice.pageObjects.components.RegisterAccountForm;
 import com.automationpractice.pageObjects.utils.Url;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 
 public class AccountSignInPage extends AbstractPageObject {
@@ -12,7 +14,7 @@ public class AccountSignInPage extends AbstractPageObject {
         super(driver);
     }
 
-    Logger logger = Logger.getLogger(AccountSignInPage.class);
+    Logger logger = LogManager.getLogger(AccountSignInPage.class);
 
     public RegisterAccountForm createAnAccount() {
         return new RegisterAccountForm(driver);
