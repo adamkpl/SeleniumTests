@@ -8,7 +8,7 @@ import net.andreinc.mockneat.abstraction.MockUnitString;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotSelectableException;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -306,7 +306,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             return this;
         } else {
             logger.error("Could not select an option from a Day of birth dropdown menu.");
-            throw new ElementNotSelectableException("Unable to select.");
+            throw new ElementNotInteractableException("Unable to select.");
         }
     }
 
@@ -339,7 +339,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             return this;
         } else {
             logger.error("Could not select an option from a month of birth dropdown menu.");
-            throw new ElementNotSelectableException("Unable to select.");
+            throw new ElementNotInteractableException("Unable to select.");
         }
     }
 
@@ -373,7 +373,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             return this;
         } else {
             logger.error("Could not select an option from a year of birth dropdown menu.");
-            throw new ElementNotSelectableException("Unable to select.");
+            throw new ElementNotInteractableException("Unable to select.");
         }
     }
 
@@ -512,7 +512,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             return this;
         } else {
             logger.error("Could not select an option from a state of birth dropdown menu.");
-            throw new ElementNotSelectableException("Unable to select.");
+            throw new ElementNotInteractableException("Unable to select.");
         }
     }
 
@@ -572,7 +572,7 @@ public class RegisterAccountForm extends AbstractPageObject {
             return this;
         } else {
             logger.error("Could not select an option from a country dropdown menu.");
-            throw new ElementNotSelectableException("Unable to select.");
+            throw new ElementNotInteractableException("Unable to select.");
         }
     }
 
@@ -675,7 +675,4 @@ public class RegisterAccountForm extends AbstractPageObject {
         return this;
     }
 
-    public AccountSignInPage registerAccount() {
-        return new AccountSignInPage(driver);
-    }
 }

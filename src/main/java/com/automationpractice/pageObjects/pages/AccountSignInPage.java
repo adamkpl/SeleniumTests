@@ -10,29 +10,23 @@ import org.openqa.selenium.WebDriver;
 
 public class AccountSignInPage extends AbstractPageObject {
 
-    private RegisterAccountForm registerAccountForm;
-    private LoginToAccountForm loginToAccountForm;
-
     public AccountSignInPage(WebDriver driver) {
         super(driver);
-        this.registerAccountForm = new RegisterAccountForm(driver);
-        this.loginToAccountForm = new LoginToAccountForm(driver);
     }
 
     Logger logger = LogManager.getLogger(AccountSignInPage.class);
 
     public RegisterAccountForm createAnAccount() {
-        return registerAccountForm;
+        return new RegisterAccountForm(driver);
     }
 
     public LoginToAccountForm loginToAccount() {
-        return loginToAccountForm;
+        return new LoginToAccountForm(driver);
     }
 
     public AccountSignInPage navigateToAccountSignInPage() {
         logger.info("Opening page: " + Url.MY_ACCOUNT);
         driver.get(Url.MY_ACCOUNT);
-        logger.info("Opened page: " + Url.MY_ACCOUNT);
         return this;
     }
 
